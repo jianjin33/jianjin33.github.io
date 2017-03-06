@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Hook技术实现Android插件化"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Hook技术实现Android插件化</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-03-06</span>
+            <span class="time">15:03:56</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Android/">#Android</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>Hook技术实现Android插件化<br><a id="more"></a></p>
+<p>##实现原理<br>通过Android的Activity启动原理可以知道startActivity()时，通过进程间通信（IPC)通知ActivityManagerService,然后PackageManagerService通过intent过滤器扫描清单文件。<br>hook技术可以让启动的Activity不在清单文件中注册，通过动态代理的方式结合反射，使用可以通过PackageManagerService扫描的intent（在清单文件注册），当intent通过后并且Acitvity启动之前，再将intent中的Component替换为需要启动的acitivty即可。</p>
+<p>##代码实现<br>1.创建一个hook工具类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">   * @param proxyActivity 代理Activity </div><div class="line">   * @param context</div><div class="line">   */</div><div class="line">  public HookAmsUtil(Class&lt;?&gt; proxyActivity, Context context) &#123;</div><div class="line">      this.proxyActivity = proxyActivity;</div><div class="line">      this.context = context;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  public void hookAms() &#123;</div><div class="line">      try &#123;</div><div class="line">          //通过反射得到ActivityManagerNative类 和成员变量gDefault</div><div class="line">          Class&lt;?&gt; forName = Class.forName(&quot;android.app.ActivityManagerNative&quot;);</div><div class="line">          Field defaultField = forName.getDeclaredField(&quot;gDefault&quot;);</div><div class="line">          defaultField.setAccessible(true);</div><div class="line"></div><div class="line">          Object defaultValue = defaultField.get(null);</div><div class="line">          //反射SingleTon</div><div class="line">          Class&lt;?&gt; aClass = Class.forName(&quot;android.util.Singleton&quot;);</div><div class="line">          Field instanceField = aClass.getDeclaredField(&quot;mInstance&quot;);</div><div class="line">          instanceField.setAccessible(true);</div><div class="line">          //得到源码中的iActivityManager</div><div class="line">          Object iActivityManagerObject = instanceField.get(defaultValue);</div><div class="line"></div><div class="line">          //使用动态代理 创建hook</div><div class="line">          Class&lt;?&gt; iActivityManagerIntercept = Class.forName(&quot;android.app.IActivityManager&quot;);</div><div class="line"></div><div class="line">          AmsInvocationHandler handler = new AmsInvocationHandler(iActivityManagerObject);</div><div class="line"></div><div class="line">          Object proxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class&lt;?&gt;[]&#123;iActivityManagerIntercept&#125;, handler);</div><div class="line"></div><div class="line">          //替换</div><div class="line">          instanceField.set(defaultValue, proxy);</div><div class="line"></div><div class="line">      &#125; catch (Exception e) &#123;</div><div class="line">          e.printStackTrace();</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>2.因为intent中的xxxActivity.class并没有在清单文件注册，这里将其从 IActivityManager取出并替换为代理intent，程序不会崩溃。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">class AmsInvocationHandler implements InvocationHandler &#123;</div><div class="line"></div><div class="line">        private Object iActivityManagerObject;</div><div class="line"></div><div class="line">        public AmsInvocationHandler(Object iActivityManagerObject) &#123;</div><div class="line">            this.iActivityManagerObject = iActivityManagerObject;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public Object invoke(Object o, Method method, Object[] objects) throws Throwable &#123;</div><div class="line">            Log.i(&quot;INFO&quot;, &quot;methodName:&quot; + method.getName());</div><div class="line">            if (&quot;startActivity&quot;.contains(method.getName())) &#123;</div><div class="line">                Intent intent = null;</div><div class="line">                int index = 0;   //记录索引，通过后再体会为原意图</div><div class="line">                for (int i = 0; i &lt; objects.length; i++) &#123;</div><div class="line">                    if (objects[i] instanceof Intent) &#123;</div><div class="line">                        intent = (Intent) objects[i]; //原意图</div><div class="line">                        index = i;</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                //Intent intent = new Intent(context,ProxyActivity.class);//可以这样写</div><div class="line">                Intent proxyIntent = new Intent();</div><div class="line">                ComponentName componentName = new ComponentName(context, proxyActivity);</div><div class="line">                proxyIntent.setComponent(componentName);</div><div class="line">                //绑定通过系统的filter</div><div class="line">                proxyIntent.putExtra(&quot;oldIntent&quot;, intent);</div><div class="line">                //开始替换</div><div class="line">                objects[index] = proxyIntent;</div><div class="line">                return method.invoke(iActivityManagerObject, objects);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            return method.invoke(iActivityManagerObject, objects);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>3.当Intent通过时，启动activity通过源码 系统是通过handler进行启动，handler有个callback 当判断callback为空时才进行发消息，启动activit，这里再创建一个hook，自定义一个callback，把intent的activity替换为我们想要启动的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">public void hookSystemHandler() &#123;</div><div class="line">       try &#123;</div><div class="line">           Class&lt;?&gt; forName = Class.forName(&quot;android.app.ActivityThread&quot;);</div><div class="line">           Field currentActivityThread = forName.getDeclaredField(&quot;sCurrentActivityThread&quot;);</div><div class="line">           currentActivityThread.setAccessible(true);</div><div class="line">           Object activityThreadValue = currentActivityThread.get(null);//程序的入口</div><div class="line">           Field handlerField = forName.getDeclaredField(&quot;mH&quot;);</div><div class="line">           handlerField.setAccessible(true);</div><div class="line">           Handler handlerObject = (Handler) handlerField.get(activityThreadValue);</div><div class="line">           Field callbackField = Handler.class.getDeclaredField(&quot;mCallback&quot;);</div><div class="line">           callbackField.setAccessible(true);  //防止私有</div><div class="line">           callbackField.set(handlerObject,new ActivityThreadHandlerCallback(handlerObject));</div><div class="line"></div><div class="line">       &#125; catch (Exception ex) &#123;</div><div class="line">           ex.printStackTrace();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">   class ActivityThreadHandlerCallback implements  Handler.Callback&#123;</div><div class="line">       Handler handler;</div><div class="line"></div><div class="line">       public ActivityThreadHandlerCallback(Handler handler) &#123;</div><div class="line">           this.handler = handler;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       @Override</div><div class="line">       public boolean handleMessage(Message message) &#123;</div><div class="line">           Log.i(&quot;INFO&quot;,&quot;message callback&quot;);</div><div class="line">           //这里替换回之前的intent</div><div class="line">           if (message.what == 100)&#123;</div><div class="line">               Log.i(&quot;INFO&quot;,&quot;lauchActivity&quot;);</div><div class="line">               handleLaunchActivity(message);</div><div class="line">           &#125;</div><div class="line"></div><div class="line">           handler.handleMessage(message);</div><div class="line">           return true;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       private void handleLaunchActivity(Message message) &#123;</div><div class="line">           Object obj = message.obj;       //ActivityClientRecord</div><div class="line">           try &#123;</div><div class="line">               //不能强转 framwork层</div><div class="line">               Field intentField = obj.getClass().getDeclaredField(&quot;intent&quot;);</div><div class="line">               intentField.setAccessible(true);</div><div class="line">               Intent proxyIntent = (Intent) intentField.get(obj);</div><div class="line">               Intent realIntent = proxyIntent.getParcelableExtra(&quot;oldIntent&quot;);</div><div class="line">               if (realIntent != null)&#123;</div><div class="line">                   //代理意图替换成真实意图</div><div class="line">                   proxyIntent.setComponent(realIntent.getComponent());</div><div class="line">               &#125;</div><div class="line">           &#125;catch (Exception e)&#123;</div><div class="line">               e.printStackTrace();</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>4.application中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class MyApplication extends Application &#123;</div><div class="line">    @Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        HookAmsUtil amsUtil = new HookAmsUtil(ProxyActivity.class,this);</div><div class="line"></div><div class="line">        amsUtil.hookAms();</div><div class="line">        amsUtil.hookSystemHandler();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>宿主中通过下载的插件安装，后期更新。<br><a href="https://github.com/jianjin33/Hook.git" target="_blank" rel="external">github的demo地址</a></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
