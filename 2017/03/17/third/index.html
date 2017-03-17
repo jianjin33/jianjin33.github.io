@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="SQLite数据库sql语句"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">SQLite数据库sql语句</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-03-17</span>
+            <span class="time">17:20:05</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Java/">#Java</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>MySQL数据库sql语句的用法总结<br><a id="more"></a></p>
+<p>###一、基本语句</p>
+<ul>
+<li>b&lt;=a &amp;&amp; a &lt;= c 的SQL语句：<br>表达式”a BETWEEN b AND c”等于表达式 “a &gt;= b AND a &lt;= c”,在比较表达式时,a可以是具有任何亲和性。</li>
+<li>a的值是x,y,z其中一个值：<br>“a IN (x, y, z)” 和 “a = z OR a = y OR a = z”视为相等. </li>
+<li>如何创建制定目录的数据库：<br>sqlite3 D:/Project/SyncML/Lib/debug/atsync.db<br><code>如果不往数据库里面添加任何的表，这个数据库等于没有建立，不会在硬盘上产生任何文件，如果数据库已经存在，则会打开这个数据库。</code></li>
+<li>添加一张数据表：<br>create table student(name varchar(10), age smallint);</li>
+<li>往数据表中添加数据：<br>insert into student values(‘张三’, 20);</li>
+<li>在SQLite中，在表上添加或删除一列:<br>SQLite 有有限地 ALTER TABLE 支持。你可以使用它来在表的末尾增加一列，可更改表的名称。 如果需要对表结构做更复杂的改变，则必须重新建表。 重建时可以先将已存在的数据放到一个临时表中，删除原表， 创建新表，然后将数据从临时表中复制回来。<br>如，假设有一个 t1 表，其中有 “a”, “b”, “c” 三列， 如果要删除列 c ，以下过程描述如何做:<br>开始事物处理<br>BEGIN TRANSACTION;<br>创建临时表格t1-backup<br>CREATE TEMPORARY TABLE t1_backup(a,b);<br>将数据库表t1中的所有数据拷贝到表t1-backup中<br>INSERT INTO t1_backup SELECT a,b FROM t1;<br>删除表格t1<br>DROP TABLE t1;<br>创建表格t1<br>CREATE TABLE t1(a,b);<br>将数据库表t1-backup中的所有数据拷贝到表t1中<br>INSERT INTO t1 SELECT a,b FROM t1_backup;<br>删除备份表格t1-backup<br>DROP TABLE t1_backup;<br>事物提交<br>COMMIT; </li>
+<li>SQLite支持的数据类型:<br>NULL 值为NULL<br>INTEGER 值为带符号的整型，根据类别用1，2，3，4，6，8字节存储<br>REAL 值为浮点型，8字节存储<br>TEXT 值为text字符串，使用数据库编码(UTF-8, UTF-16BE or UTF-16-LE)存储<br>BLOB 值为二进制数据，具体看实际输入 </li>
+<li>如果将声明表的一列设置为 INTEGER PRIMARY KEY，则具有：<br>1． 每当你在该列上插入一NULL值时， NULL自动被转换为一个比该列中最大值大1的一个整数；<br>2．如果表是空的， 将会是1<br><code>注意该整数会比表中该列上的插入之前的最大值大1。 该键值在当前的表中是唯一的。但有可能与已从表中删除的值重叠。要想建立在整个表的生命周期中唯一的键值，需要在 INTEGER PRIMARY KEY 上增加AUTOINCREMENT声明。那么，新的键值将会比该表中曾能存在过的最大值大1</code></li>
+</ul>
+<p>###案例（CRUD）（以下所有中括号[]均视为注释）</p>
+<ol>
+<li>创建一个数据库：create database [数据名]; （…+character set utf8；）</li>
+<li>查看所有的数据库库：show databases;</li>
+<li>删除数据库 drop database [数据名];</li>
+<li>创建表：<br><code>create table [表名（无中括号）]（id integer primary key autoincrement，[列名1] varchar([长度])，[列名2小数类型] double，[列名3大文本类型] text，[列名4日期型] data）;</code></li>
+<li><p>insert：</p>
+<ul>
+<li>向表中插入一条数据：<code>insert into [表名] ([列表1]，[列名2]，[列名3]，[列名4])values(&#39;[列表1的值]&#39;，3.14，&#39;xyabc&#39;，2009-07-22&#39;)；</code><br><code>insert a (([列表1]) values(&#39;([列表1的值]&#39;);</code></li>
+<li>向表中插入多条数据：<br><code>insert into [表名] ([列表1]，[列名2]，[列名3]，[列名4])values(&#39;[列表1的值]&#39;，3.14，&#39;xyabc&#39;，2008-08-08&#39;)，(&#39;[列表1的值]&#39;，3.15，&#39;jzm&#39;，2016-03-15&#39;)；</code></li>
+<li>为表增加一列：<code>alter table  [表名] add [列名5] blob;</code></li>
+<li>修改[列名1]，使其长度为60：<code>alter table [表名] modify [列名1] varchar(60);</code></li>
+<li>删除[列名3大文本类型]列：<code>alter table [表名] drop [列名3大文本类型];</code></li>
+<li>修改表名：<code>rename table [表名] to [新表名];</code></li>
+<li>修改[列名2]：<code>alter table  [表名] change column [列名2]  [新列名2] double;</code></li>
+<li>删除一张数据表：<code>drop table  [表名];</code></li>
+</ul>
+</li>
+<li><p>update:</p>
+<ul>
+<li>修改其中一条中一个数据：<br><code>update [表名] set [列表1]=&#39;[列表1的新值]&#39;  where [列名2]=3.14;</code></li>
+<li>修改其中一条的多个数据：<br><code>update [表名] set [列表1]=&#39;[列表1的新值]&#39; ，[列名3]=&#39;helloworld&#39; where [列名2]=3.14;</code></li>
+</ul>
+</li>
+<li>delete:<ul>
+<li>删除表中[列名2]为’3.14’的记录:<br><code>delete from [表名] where name=&#39;3.14&#39;;</code></li>
+<li>删除表中所有记录:<br>Delete是一条条的删，如果条目很多的话，会效率很低<br>删除一个数据表的数据：<code>delete from  [表名];</code><br>使用truncate删除表中记录。 摧毁表再创建表 尽量用这个:<code>truncate [表名];</code></li>
+</ul>
+</li>
+<li>select:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">create table student(</div><div class="line">id int,</div><div class="line">name varchar(20),</div><div class="line">chinese float,</div><div class="line">english float,</div><div class="line">math float);</div><div class="line"></div><div class="line">insert into student(id,name,chinese,english,math) values(1,&apos;张三&apos;,89,78,90);</div><div class="line">insert into student(id,name,chinese,english,math) values(2,&apos;李四&apos;,67,53,95);</div><div class="line">insert into student(id,name,chinese,english,math) values(3,&apos;王五&apos;,87,78,77);</div><div class="line">insert into student(id,name,chinese,english,math) values(4,&apos;赵六&apos;,88,98,92);</div><div class="line">insert into student(id,name,chinese,english,math) values(5,&apos;周七&apos;,82,84,67);</div><div class="line">insert into student(id,name,chinese,english,math) values(6,&apos;张进宝&apos;,55,85,45);</div><div class="line">insert into student(id,name,chinese,english,math) values(7,&apos;黄蓉&apos;,75,65,30);</div><div class="line"></div><div class="line">查询表中所有学生的信息。</div><div class="line">select * from student;</div><div class="line">查询表中所有学生的姓名和对应的英语成绩。</div><div class="line">select name,english from student;</div><div class="line">过滤表中重复数据。</div><div class="line">select distinct english from student;</div><div class="line">在所有学生分数上加10分特长分。</div><div class="line">select name,english+10,chinese+10,math+10 from student;</div><div class="line">统计每个学生的总分。</div><div class="line">select name,english+chinese+math as sum from student;</div><div class="line">使用别名表示学生分数。</div><div class="line"></div><div class="line">where 子句</div><div class="line">查询姓名为李一的学生成绩</div><div class="line">select * from student where name=&apos;李一&apos;;</div><div class="line">查询英语成绩大于90分的同学</div><div class="line">select * from student where english&gt;90;</div><div class="line">查询总分大于200分的所有同学</div><div class="line">select name,english+chinese+math sum from student where english+chinese+math&gt;200;</div><div class="line">此处可以不用as</div><div class="line"></div><div class="line">运算符</div><div class="line">查询英语分数在 80－90之间的同学。</div><div class="line">select * from student where english between 65 and 85;</div><div class="line">查询数学分数为89,90,91的同学。</div><div class="line">select name,math from student where math in(89,90,91);</div><div class="line">查询所有姓李的学生成绩。</div><div class="line">select * from student where name like &apos;李%&apos;;</div><div class="line"></div><div class="line">// 查询姓李的两个字的学生</div><div class="line">select * from student where name like &apos;李_&apos;;</div><div class="line">查询数学分&gt;80，语文分&gt;80的同学。</div><div class="line">select * from student where math&gt;80 and chinese&gt;80;</div><div class="line">查询英语&gt;80或者总分&gt;200的同学</div><div class="line">select *,chinese+math+english from student where english&gt;80 or chinese+english+math&gt;200;</div><div class="line">order by 子句</div><div class="line">对数学成绩排序后输出。</div><div class="line">select * from student order by math;</div><div class="line">对总分排序后输出，然后再按从高到低的顺序输出</div><div class="line">select *,chinese+math+english from student order by chinese+math+english desc;</div><div class="line">对姓李的学生成绩排序输出 order从句是需要放在where从句的后面</div><div class="line">select *,chinese+math+english from student where name like &apos;李%&apos; order by chinese+math+english;</div><div class="line">合计函数</div><div class="line">count</div><div class="line">统计一个班级共有多少学生？</div><div class="line">select count(*) from student;</div><div class="line">统计数学成绩大于90的学生有多少个？</div><div class="line">select count(*) from student where math&gt;90;</div><div class="line">统计总分大于230的人数有多少？</div><div class="line">select count(*) from student where chinese+math+english&gt;230;</div><div class="line">sum</div><div class="line">统计一个班级数学总成绩？</div><div class="line">select sum(math) from student;</div><div class="line">统计一个班级语文、英语、数学各科的总成绩</div><div class="line">select sum(math),sum(chinese),sum(english) from student;</div><div class="line">统计一个班级语文、英语、数学的成绩总和</div><div class="line">select sum(math+chinese+english) from student;</div><div class="line">统计一个班级语文成绩平均分</div><div class="line">select sum(chinese)/count(*) from student;</div><div class="line">缺考的不参与计算</div><div class="line">select sum(chinese)/count(chinese) from student;</div><div class="line">avg</div><div class="line">语文平均分</div><div class="line">select avg(chinese) from student;</div><div class="line">max/min</div><div class="line">语文最 高分</div><div class="line">select max(chinese) from student;</div></pre></td></tr></table></figure>
+<p>###命令：</p>
+<ol>
+<li>查看数据库有哪些数据表：.tables </li>
+<li>查看数据表的结构：.schema contact</li>
+<li>查看当前的数据库：.database </li>
+<li>导入一个文件到某个表中：.import 文件路径 表名 </li>
+<li>设置文件字段的分隔符：.separator “,” </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">select语句（6）</div><div class="line">group by</div><div class="line">订单表</div><div class="line">create table orders(</div><div class="line">id int,</div><div class="line">product varchar(20),</div><div class="line">price float</div><div class="line">);</div><div class="line">insert into orders(id,product,price) values(1,&apos;电视&apos;,900);</div><div class="line">insert into orders(id,product,price) values(2,&apos;洗衣机&apos;,100);</div><div class="line">insert into orders(id,product,price) values(3,&apos;洗衣粉&apos;,90);</div><div class="line">insert into orders(id,product,price) values(4,&apos;桔子&apos;,9);</div><div class="line">insert into orders(id,product,price) values(5,&apos;洗衣粉&apos;,90);</div><div class="line">将商品归类</div><div class="line">select * from orders group by product;</div><div class="line">显示单类商品总结</div><div class="line">select *,sum(price) from orders group by product;</div><div class="line">商品分类 显示单类商品总价大于100的</div><div class="line">select *,sum(price) from orders group by product having sum(price)&gt;100;</div><div class="line">// 将单价大于20 的商品进行归类显示 按照价格排序</div><div class="line">select * from orders where price&gt;20 group by product order by price;</div></pre></td></tr></table></figure>
+<p>9、表的约束：<br>表的约束就是在定义表时，我们可以在创建表的同时为字段增加约束，对将来插入的数据做一些限定<br>一、表的约束<br>表的约束就是在定义表时，为表中的字段加一些约束条件，对将来插入的数据做一些限定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line">1. 唯一约束 unique</div><div class="line">create table a</div><div class="line">(</div><div class="line">id int,</div><div class="line">username varchar(20) unique,</div><div class="line">password varchar(20)</div><div class="line">);</div><div class="line">insert into a (id,username,password) values(1,&apos;zhangsan&apos;,&apos;1111&apos;);</div><div class="line">insert into a (id,username,password) values(2,&apos;wangwu&apos;,&apos;1111&apos;);</div><div class="line">2. 非空约束 not null</div><div class="line">create table b</div><div class="line">(</div><div class="line">id int not null,</div><div class="line">name varchar(20)</div><div class="line">);</div><div class="line">insert into b (id,name) values (1,&apos;aaaa&apos;);</div><div class="line">insert into b (id,name) values (1,&apos;bbbb&apos;);</div><div class="line">3. 主键约束 相当于 唯一约束+非空约束</div><div class="line">数据库中的每张表都应该至少有一个主键，通常是id</div><div class="line">create table c</div><div class="line">(</div><div class="line">id int primary key,</div><div class="line">name varchar(20)</div><div class="line">);</div><div class="line">insert into c(id,name) values (1,&apos;aaaa&apos;);</div><div class="line">insert into c(id,name) values (2,&apos;bbbb&apos;);</div><div class="line">create table d</div><div class="line">(</div><div class="line">firstname varchar(20),</div><div class="line">lastname varchar(20),</div><div class="line">primary key(firstname, lastname)</div><div class="line">);</div><div class="line">insert into d (firstname, lastname) values (&apos;tom&apos;, &apos;cat&apos;);</div><div class="line">insert into d (firstname, lastname) values (&apos;tom&apos;, &apos;hks&apos;);</div><div class="line">create table e</div><div class="line">(</div><div class="line">id int ,</div><div class="line">name varchar(20)</div><div class="line">);</div><div class="line">insert into e (id,name) values(1,&apos;aaa&apos;);</div><div class="line">为表加上主键约束</div><div class="line">alter table e add primary key(id);</div><div class="line">此处修改的命令：</div><div class="line">修改job列，使其长度为60。</div><div class="line">alter table employee modify job varchar(60);</div><div class="line">删除主键约束</div><div class="line">alter table e drop primary key;</div><div class="line">4. 定义主键自动增长</div><div class="line">这个的作用就是让id键随着条目的增加，自动往上增长。</div><div class="line">注意主键类型必须是int，只有int类型的才可以自增</div><div class="line">create table f</div><div class="line">(</div><div class="line">id int primary key auto_increment,</div><div class="line">name varchar(20)</div><div class="line">);</div><div class="line">insert into f(name) values (&apos;aaa&apos;);</div><div class="line">insert into f(id,name) values (11,&apos;bbb&apos;);</div><div class="line">mysql&gt; select * from f;</div><div class="line">+----+------+</div><div class="line">| id | name |</div><div class="line">+----+------+</div><div class="line">| 1 | aaa |</div><div class="line">| 2 | aaa |</div><div class="line">| 3 | aaa |</div><div class="line">| 4 | aaa |</div><div class="line">| 11 | bbb |</div><div class="line">| 12 | aaa |</div><div class="line">| 13 | aaa |</div><div class="line">| 14 | aaa </div><div class="line">| 15 | aaa |</div><div class="line">| 16 | aaa |</div><div class="line">+----+------+</div><div class="line">外键约束</div><div class="line">约束力: 插入的外键值必须为被参照列存在的值</div><div class="line">被参照表中被参照的数据不允许删除</div><div class="line">注意：外键约束并没有非空和唯一的约束力</div><div class="line">创建丈夫表和妻子表</div><div class="line">create table husband</div><div class="line">(</div><div class="line">id int primary key auto_increment,</div><div class="line">name varchar(20)</div><div class="line">);</div><div class="line">create table wife</div><div class="line">(</div><div class="line">id int primary key auto_increment,</div><div class="line">name varchar(20),</div><div class="line">husbandid int,</div><div class="line">constraint husbandid_FK foreign key(husbandid) references husband(id)</div><div class="line">);</div><div class="line">外界约束：Constraint是定义外键约束的，foreign key是外键的名称 参照某张表的主键</div><div class="line">分别添加两条记录</div><div class="line">insert into husband(name) values (&apos;laobi&apos;);</div><div class="line">insert into husband(name) values (&apos;laoyu&apos;);</div><div class="line">insert into wife(name,husbandid) values (&apos;fengjie&apos;,2);</div><div class="line">insert into wife(name,husbandid) values (&apos;furongjie&apos;,1);</div><div class="line">fengjie 找老公</div><div class="line">select * from husband where id=(select husbandid from wife where name=&apos;fengjie&apos;);</div><div class="line">delete from husband where name=&apos;laoyu&apos;;</div></pre></td></tr></table></figure></p>
+<p>10 . 表的关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line">1 多对一</div><div class="line">创建部门表</div><div class="line">create table department(id int primary key auto_increment,name varchar(20));</div><div class="line">添加三个部门信息</div><div class="line">insert into department(name) values(&apos;开发部&apos;);</div><div class="line">insert into department(name) values(&apos;销售部&apos;);</div><div class="line">insert into department(name) values(&apos;人事部&apos;);</div><div class="line">创建员工表</div><div class="line">create table employee(id int primary key auto_increment,name varchar(20),departmentid int,</div><div class="line">constraint departmentid_FK foreign key(departmentid) references department(id));</div><div class="line">添加六个员工信息</div><div class="line">insert into employee(name,departmentid) values (&apos;张三&apos;,1);</div><div class="line">insert into employee(name,departmentid) values (&apos;李四&apos;,1);</div><div class="line">insert into employee(name,departmentid) values (&apos;王五&apos;,2);</div><div class="line">insert into employee(name,departmentid) values (&apos;赵六&apos;,3);</div><div class="line">insert into employee(name,departmentid) values (&apos;田七&apos;,3);</div><div class="line">insert into employee(name,departmentid) values (&apos;周八&apos;,null);</div><div class="line">多表的查询</div><div class="line">查出1号部门所有的员工</div><div class="line">select * from employee where departmentid=1;</div><div class="line">查出开发部所有的员工</div><div class="line">select * from employee where departmentid=(select id from department where name=&apos;开发部&apos;);</div><div class="line">查出赵六在那个部门</div><div class="line">select * from department where id=(select departmentid from employee where name=&apos;赵六&apos;);</div><div class="line">--------------------------------------</div><div class="line">联合查询</div><div class="line">查出开发部所有的员工</div><div class="line">select * from department,employee;</div><div class="line">+----+--------+----+------+--------------+</div><div class="line">| id | name | id | name | departmentid |</div><div class="line">+----+--------+----+------+-------------+</div><div class="line">| 1 | 开发部 | 1 | 张三 | 1 |</div><div class="line">| 2 | 销售部 | 1 | 张三 | 1 |</div><div class="line">| 3 | 人事部 | 1 | 张三 | 1 |</div><div class="line">| 1 | 开发部 | 2 | 李四 | 1 </div><div class="line">| 2 | 销售部 | 2 | 李四 | 1 |</div><div class="line">| 3 | 人事部 | 2 | 李四 | 1 |</div><div class="line">| 1 | 开发部 | 3 | 王五 | 2 |</div><div class="line">| 2 | 销售部 | 3 | 王五 | 2 |</div><div class="line">| 3 | 人事部 | 3 | 王五 | 2 |</div><div class="line">| 1 | 开发部 | 4 | 赵六 | 3 </div><div class="line">| 2 | 销售部 | 4 | 赵六 | 3 |</div><div class="line">| 3 | 人事部 | 4 | 赵六 | 3 |</div><div class="line">| 1 | 开发部 | 5 | 田七 | 3 |</div><div class="line">| 2 | 销售部 | 5 | 田七 | 3 </div><div class="line">| 3 | 人事部 | 5 | 田七 | 3 |</div><div class="line">| 1 | 开发部 | 6 | 周八 | NULL |</div><div class="line">| 2 | 销售部 | 6 | 周八 | NULL |</div><div class="line">| 3 | 人事部 | 6 | 周八 | NULL |</div><div class="line">+----+--------+----+------+--------------+</div><div class="line">笛卡尔集 多张表的所有记录的排列组合</div><div class="line">笛卡尔集当中有很多部匹配的数据(参照表外键列的值和被参照表主键的值不一致) 为了方便 以下称为废数据</div><div class="line">加条件去掉废数据</div><div class="line">select * from department,employee where employee.departmentid=department.id;</div><div class="line">加条件做查询</div><div class="line">select * from department,employee where employee.departmentid=department.id and department.name=&apos;开发部&apos;;</div><div class="line">优化 给表加别名 只保留需要的数据</div><div class="line">select e.* from department d,employee e where e.departmentid=d.id and d.name=&apos;开发部&apos;;</div><div class="line">查出赵六在那个部门</div><div class="line">select d.* from department d,employee e where e.departmentid=d.id and e.name=&apos;赵六&apos;;</div><div class="line">2. 多对多</div><div class="line">创建老师表</div><div class="line">create table teacher(id int primary key auto_increment,name varchar(20));</div><div class="line">添加三个老师</div><div class="line">insert into teacher(name) values (&apos;老方&apos;),(&apos;老余&apos;),(&apos;老毕&apos;);</div><div class="line">create table student(id int primary key auto_increment,name varchar(20));</div><div class="line">添加三个学生</div><div class="line">insert into student(name) values(&apos;大毛&apos;),(&apos;二毛&apos;),(&apos;三毛&apos;),(&apos;四毛&apos;),(&apos;五毛&apos;),(&apos;六毛&apos;),(&apos;七毛&apos;),(&apos;八毛&apos;),(&apos;小毛&apos;);</div><div class="line">创建中间表描述关系</div><div class="line">create table tea_stu(teaid int,stuid int,primary key(teaid,stuid),constraint teaid_FK foreign key(teaid) references teacher(id),constraint stuid_FK foreign key(stuid) references student(id));</div><div class="line">添加数据</div><div class="line">insert into tea_stu (teaid,stuid) values (1,1),(1,2),(1,4),(1,5),(1,6),(1,8),(2,1),(2,3),(2,5),(2,7),(2,9),(3,2),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8);</div><div class="line">查询2号老师教过的学生</div><div class="line">select s.* from student s,tea_stu ts where ts.stuid=s.id and ts.teaid=2;</div><div class="line">查询老余教过的所有的学生</div><div class="line">select s.* from student s,tea_stu ts,teacher t where ts.stuid=s.id and ts.teaid=t.id and t.name=&apos;老余&apos;;</div><div class="line">多表联合查询</div><div class="line">查询的结果为笛卡尔集</div><div class="line">n张表联合查需要n-1个条件来去掉废数据</div><div class="line">去掉废数据的条件 参照表的外键列=被参照表的主键列</div><div class="line">再加上查询条件即可得到结果</div><div class="line">3. 一对一</div><div class="line">create table person(id int primary key auto_increment,name varchar(20));</div><div class="line">create table idcard(id int primary key,location varchar(20),</div><div class="line">    constraint personid_FK foreign key(id) references person(id));</div><div class="line">insert into person (name) values(&apos;zhangsan&apos;);</div><div class="line">insert into person (name) values(&apos;lisi&apos;);</div><div class="line">insert into idcard (id,location) values(2,&apos;天津&apos;);</div><div class="line">insert into idcard (id,location) values(1,&apos;上海&apos;);</div><div class="line">查李四的身份证</div><div class="line">select idcard.* from person,idcard where idcard.id=person.id and person.name=&apos;lisi&apos;;</div></pre></td></tr></table></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
