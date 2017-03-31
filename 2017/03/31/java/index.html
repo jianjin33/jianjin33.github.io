@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="基于maven创建spring-mvc项目"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">基于maven创建spring-mvc项目</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-03-31</span>
+            <span class="time">15:53:00</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Java/">#Java</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>基于Maven/SpringMVC/Spring/Mybatis/c3p0/mysql项目搭建<br><a id="more"></a></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
+<li>通过idea创建项目</li>
+<li>集成spring-mvc</li>
+<li>集成spring</li>
+<li>集成c3p0</li>
+<li>配置spring声明式事务管理</li>
+<li>集成Mybatis</li>
+</ul>
+<h4 id="一、创建项目"><a href="#一、创建项目" class="headerlink" title="一、创建项目"></a>一、创建项目</h4><ol>
+<li>选择maven-archetype-webapp：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-681a26645ba0dec5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="create_project_01.png"></li>
+<li>填写GroupId和ArtifactId，一路next–&gt;finish即可<br><img src="http://upload-images.jianshu.io/upload_images/2809446-54541ca918e86c93.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="create_project_02.png"></li>
+<li>src目录下创建java包并设置为source root,同样resources也要设置为resource root<br><img src="http://upload-images.jianshu.io/upload_images/2809446-2d4ef315b80dddc2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>创建项目结构包：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-60d11e9121cd1399.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li><p>打开webapp下WEB-INF的web.xml可以看到idea自动生成的dtd是比较老的版本，需要改为3.0版本<br>可以打开apache下的conf\web.xml文件复制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;</div><div class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">         xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee</div><div class="line">                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;</div><div class="line">         version=&quot;3.0&quot;&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改默认的字节码编译版本，在.idea下的compiler.xml可以查看，默认是1.5修改为1.8：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-b79fc4cb09b8d913.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>并且在pom.xml下修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;build&gt;</div><div class="line">    &lt;finalName&gt;example&lt;/finalName&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">      &lt;plugin&gt;</div><div class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;2.3.2&lt;/version&gt;</div><div class="line">        &lt;configuration&gt;</div><div class="line">          &lt;source&gt;1.8&lt;/source&gt;</div><div class="line">          &lt;target&gt;1.8&lt;/target&gt;</div><div class="line">        &lt;/configuration&gt;</div><div class="line">      &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">  &lt;/build&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>到此就项目创建就完成了</p>
+<h4 id="二、集成spring-mvc"><a href="#二、集成spring-mvc" class="headerlink" title="二、集成spring-mvc"></a>二、集成spring-mvc</h4><p>打开：<a href="mvnrepository.com">mvnrepository.com</a></p>
+<ol>
+<li>搜索org.springframework的Spring Web MVC<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;          </div><div class="line">&lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>复制进 pom.xml文件中<dependencies> 标签中，并且将version提取到<properties>标签中，便于以后维护是管理版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;properties&gt;</div><div class="line">    &lt;spring.version&gt;4.3.3.RELEASE&lt;/spring.version&gt;</div><div class="line">    &lt;mybatis.version&gt;3.4.1&lt;/mybatis.version&gt;</div><div class="line">    &lt;mybatis.spring.version&gt;1.3.0&lt;/mybatis.spring.version&gt;</div><div class="line">    &lt;cglib.version&gt;3.2.2&lt;/cglib.version&gt;</div><div class="line">&lt;/properties&gt;</div></pre></td></tr></table></figure></properties></dependencies></p>
+<ol>
+<li><p>依赖servlet和jstl,因为tomcat也有，所以定义一下作用域scope，容器提供：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;3.1.0&lt;/version&gt;</div><div class="line">            &lt;scope&gt;provided&lt;/scope&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;jstl&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;1.2&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置spring-mvc<br>在resources目录下创建spring-mvc.xml，配置等会再写，在这之前需要初始化spring-mvc配置到web.xml中。<br>web.xml：先定义一个servlet和servlet-mapping,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;servlet&gt;</div><div class="line">   &lt;servlet-name&gt;spring-mvc&lt;/servlet-name&gt;</div><div class="line">   &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</div><div class="line">   &lt;init-param&gt;</div><div class="line">   &lt;!--contextConfigLocation为固定参数名称--&gt;</div><div class="line">     &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</div><div class="line">     &lt;param-value&gt;classpath:spring-mvc.xml&lt;/param-value&gt;</div><div class="line">   &lt;/init-param&gt;</div><div class="line"> &lt;!--定义为1，是为了和tomcat一起启动--&gt;</div><div class="line">   &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</div><div class="line"> &lt;/servlet&gt;</div><div class="line"> </div><div class="line"> &lt;servlet-mapping&gt;</div><div class="line">   &lt;servlet-name&gt;spring-mvc&lt;/servlet-name&gt;</div><div class="line">   &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;</div><div class="line"> &lt;/servlet-mapping&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>spring-mvc.xml：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;!--使用注解请求映射--&gt;</div><div class="line">&lt;mvc:annotation-driven/&gt;</div><div class="line">&lt;!--视图解析器--&gt;</div><div class="line">&lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;</div><div class="line">    &lt;!--重定向时是否添加上下文路径--&gt;</div><div class="line">    &lt;property name=&quot;redirectContextRelative&quot; value=&quot;true&quot;/&gt;</div><div class="line">    &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;</div><div class="line">    &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;!--扫描所有控制器扫描包--&gt;</div><div class="line">&lt;context:component-scan base-package=&quot;com.jzm.example.api.controller&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>web.xml中配置请求和应答字符编码处理过滤器CharacterEncodingFilter，要配置在前面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;filter&gt;</div><div class="line">    &lt;description&gt;请求和应答字符编码过滤器&lt;/description&gt;</div><div class="line">    &lt;filter-name&gt;encoding-filter&lt;/filter-name&gt;</div><div class="line">    &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;</div><div class="line">&lt;/filter&gt;</div><div class="line">&lt;filter-mapping&gt;</div><div class="line">    &lt;filter-name&gt;encoding-filter&lt;/filter-name&gt;</div><div class="line">    &lt;servlet-name&gt;spring-mvc&lt;/servlet-name&gt;</div><div class="line">&lt;/filter-mapping&gt;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>验证spring-mvc可用：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@Controller</div><div class="line">public class LoginHandler &#123;</div><div class="line">   </div><div class="line">    @RequestMapping(&quot;/login.do&quot;)</div><div class="line">    public String login(String account, String password, HttpServletRequest httpRequest)&#123;</div><div class="line">        System.out.printf(&quot;我进来了&quot;);</div><div class="line">        return &quot;index&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>启动tomcat，访问 http：//localhost/login.do，看到index.jsp界面即说明配置成功。</p>
+<p>####三、集成spring<br>由于集成spring-mvc时spring的基础包都已经导入进来不需额外依赖，只需配置一下，在resources目录下创建spring-context.xml文件就行配置：<br>首先在web.xml下配置spring监听器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;listener&gt;</div><div class="line">    &lt;description&gt;启动spring容器&lt;/description&gt;</div><div class="line">    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</div><div class="line">&lt;/listener&gt;</div><div class="line">&lt;context-param&gt;</div><div class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</div><div class="line">    &lt;param-value&gt;classpath:spring-context.xml&lt;/param-value&gt;</div><div class="line">&lt;/context-param&gt;</div></pre></td></tr></table></figure></p>
+<p>spring-context:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;!--扫描业务层所有组件 service--&gt;</div><div class="line">   &lt;context:component-scan base-package=&quot;com.jzm.example.api.function&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>####四、集成c3p0</p>
+<ol>
+<li><p>添加依赖c3p0和jdbc-mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;!-- https://mvnrepository.com/artifact/com.mchange/c3p0 --&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;com.mchange&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;c3p0&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;0.9.5.2&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div><div class="line">       &lt;!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;mysql&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;5.1.39&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在spring-context中定义c3p数据源ComboPooledDataSource</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;!--使用c3p0数据源--&gt;</div><div class="line">  &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;</div><div class="line">      &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</div><div class="line">      &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/vip&quot;&gt;&lt;/property&gt;</div><div class="line">      &lt;property name=&quot;user&quot; value=&quot;root&quot;&gt;&lt;/property&gt;</div><div class="line">      &lt;property name=&quot;password&quot; value=&quot;twgaqg&quot;&gt;&lt;/property&gt;</div><div class="line">      &lt;!--最小访问数量--&gt;</div><div class="line">      &lt;property name=&quot;minPoolSize&quot; value=&quot;1&quot;&gt;&lt;/property&gt;</div><div class="line">      &lt;property name=&quot;maxPoolSize&quot; value=&quot;5&quot;&gt;&lt;/property&gt;</div><div class="line">      &lt;!--初始化获取多少个连接--&gt;</div><div class="line">      &lt;property name=&quot;initialPoolSize&quot; value=&quot;5&quot;/&gt;</div><div class="line">      &lt;!--每次连接数不够获取几条--&gt;</div><div class="line">      &lt;property name=&quot;acquireIncrement&quot; value=&quot;1&quot;/&gt;</div><div class="line">  &lt;/bean&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>####五、配置spring声明式事务管理</p>
+<ol>
+<li><p>依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>spring-context中配置事务管理器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!--配置一个事务管理器--&gt;</div><div class="line">&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;</div><div class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;!--表示使用事务注解来控制事务--&gt;</div><div class="line">&lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;/&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>####六、集成mybatis<br>1.添加依赖：mybatis、mybatis-spring、pagehelper、cglib:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;$&#123;mybatis.version&#125;&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;$&#123;mybatis.spring.version&#125;&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;cglib&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;cglib-nodep&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;$&#123;cglib.version&#125;&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div><div class="line">       &lt;!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper --&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;pagehelper&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;4.1.6&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>配置：创建mybatis-config.xml</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE configuration</div><div class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</div><div class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</div><div class="line"></div><div class="line">&lt;configuration&gt;</div><div class="line"></div><div class="line">    &lt;settings&gt;</div><div class="line">        &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;</div><div class="line">        &lt;setting name=&quot;defaultStatementTimeout&quot; value=&quot;3000&quot;/&gt;</div><div class="line">        &lt;setting name=&quot;proxyFactory&quot; value=&quot;CGLIB&quot;/&gt;</div><div class="line">        &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;</div><div class="line">    &lt;/settings&gt;</div><div class="line">&lt;!--代理和颜色加载必须要配置--&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">        &lt;plugin interceptor=&quot;com.github.pagehelper.PageHelper&quot;&gt;</div><div class="line">            &lt;property name=&quot;dialect&quot; value=&quot;mysql&quot; /&gt;</div><div class="line">            &lt;property name=&quot;offsetAsPageNum&quot; value=&quot;true&quot;/&gt;</div><div class="line">            &lt;property name=&quot;rowBoundsWithCount&quot; value=&quot;true&quot;/&gt;</div><div class="line">            &lt;property name=&quot;pageSizeZero&quot; value=&quot;true&quot;/&gt;</div><div class="line">        &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line"></div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>spring-context.xml配置SqlSessionFactoryBean<br>指定数据源和mybatis配置文件路径和mapper文件路径(mapper为在resources下创建的包)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</div><div class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;</div><div class="line">    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis-config.xml&quot;/&gt;</div><div class="line">    &lt;property name=&quot;mapperLocations&quot;&gt;</div><div class="line">        &lt;list&gt;</div><div class="line">            &lt;value&gt;classpath:mapper/*.xml&lt;/value&gt;</div><div class="line">        &lt;/list&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>在spring-context.xml配置扫描mapper生成dao（MapperScannerConfigurer）指定SqlSessionFactoryBean，指定要扫描的包<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!--扫描dao层--&gt;</div><div class="line">&lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</div><div class="line">        &lt;property name=&quot;basePackage&quot; value=&quot;com.jzm.example.api.dao&quot;/&gt;</div><div class="line">        &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot;/&gt;</div><div class="line">    &lt;/bean&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>到此，集成完成。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
