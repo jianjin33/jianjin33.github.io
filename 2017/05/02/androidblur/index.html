@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="通过jni调用C函数实现Android毛玻璃效果"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">通过jni调用C函数实现Android毛玻璃效果</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-02</span>
+            <span class="time">18:40:39</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Android/">#Android</a> <a class="tag" href="/tags/jni/">#jni</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>之前项目中，有个需求是对Activtiy背景进行虚化，实现毛玻璃效果。实现的大体思路：</p>
+<ol>
+<li>对手机屏幕进行截屏处理，获得截屏图片的bitmap；</li>
+<li>对bitmap进行相应的config处理和缩放像素处理；</li>
+<li>通过高斯模糊算法对处理后的bitmap进行虚化；</li>
+<li>将虚化后的bitmap作为背景图展示。</li>
+</ol>
+<p>虽然实现了，但由于效果不佳或是影响性能，最终选择放弃。最近闲的没事，准备将这件事给完成。<br>因为之前对bitmap的算法处理是通过java代码实现的，如果想提高性能或是减少处理时间，达到秒开的效果，必须设置虚化的程度低，但这样效果并不好看，但只是一味追求效果，由于java代码运行比较慢，在处理时间上必定会有延迟，总之就是有性能没效果，有效果没性能的矛盾，体验十分不佳，网上也给出过方案是通过c的方式实现，今天就来完成，随便回顾一遍jni的流程，长时间不碰全忘…</p>
+<p>###配置NDK，生成.so动态库</p>
+<ol>
+<li>build.gradle文件下，添加ndk配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    defaultConfig &#123;</div><div class="line">        minSdkVersion 21</div><div class="line">        targetSdkVersion 25</div><div class="line">        ...</div><div class="line">        ndk &#123;</div><div class="line">            moduleName &quot;blur_lib&quot;   // 动态库名称</div><div class="line">            abiFilters &quot;armeabi&quot;, &quot;armeabi-v7a&quot;, &quot;x86&quot; // 相应的架构平台</div><div class="line">            ldLibs &quot;log&quot; //log输出</div><div class="line">            ldLibs &quot;jnigraphics&quot; //graphic相关jni</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">   ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>项目的gradle.properties添加支持NDK<code>android.useDeprecatedNdk=true</code><br>local.properties添加ndk-bundle路径<br><code>ndk.dir=C\:\\Users\\Administrator\\AppData\\Local\\Android\\Sdk\\ndk-bundle</code></p>
+<ol>
+<li>创建NativeHelper类如下:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class NativeHelper &#123;</div><div class="line">    static &#123;</div><div class="line">        System.loadLibrary(&quot;blur_lib&quot;);</div><div class="line">    &#125;</div><div class="line">    // 参数r为对bitmap虚化的程度范围</div><div class="line">    static native void blurBitmap(Object bitmap, int r);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在Terminal中cd到java目录下生成.h头文件，方便得到c中的类名，输入命令行：<br><code>javah -jni com.pecoo.blurjnidemo.NativeHelper</code></p>
+<ol>
+<li>main下创建一个jni folder，里面创建.c/c++和.h头文件，高斯算法代码粘进来，并在.h头文件进行相应的方法申明。</li>
+<li>再创建一个c/c++文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">/* DO NOT EDIT THIS FILE - it is machine generated */</div><div class="line">#include &lt;jni.h&gt;</div><div class="line">/* Header for class com_pecoo_blurjnidemo_NativeHelper */</div><div class="line">#ifndef _Included_com_pecoo_blurjnidemo_NativeHelper</div><div class="line">#define _Included_com_pecoo_blurjnidemo_NativeHelper</div><div class="line">#ifdef __cplusplus</div><div class="line">extern &quot;C&quot; &#123;</div><div class="line">#endif</div><div class="line">/*</div><div class="line"> * Class:     com_pecoo_blurjnidemo_NativeHelper</div><div class="line"> * Method:    blurBitmap</div><div class="line"> * Signature: (Ljava/lang/Object;I)V</div><div class="line"> */</div><div class="line"> #include &lt;android/log.h&gt;</div><div class="line"> #include &lt;android/bitmap.h&gt; </div><div class="line"> #include &quot;stackblur.h&quot;   // 在第一步中创建的.h头文件，下面可以调用里面的方法</div><div class="line"></div><div class="line">// log宏定义</div><div class="line"> #define TAG &quot;Native_Blur_Jni&quot;</div><div class="line"> #define LOG_D(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)</div><div class="line"></div><div class="line">JNIEXPORT void JNICALL Java_com_pecoo_blurjnidemo_NativeHelper_blurBitmap</div><div class="line">  (JNIEnv *env, jclass obj, jobject bitmapIn, jint r)</div><div class="line">  &#123;</div><div class="line">      AndroidBitmapInfo infoIn;</div><div class="line">      void *pixels;</div><div class="line">     // 获取bitmap的信息</div><div class="line">      if (AndroidBitmap_getInfo(env, bitmapIn, &amp;infoIn) != ANDROID_BITMAP_RESULT_SUCCESS) &#123;</div><div class="line">          LOG_D(&quot;AndroidBitmap_getInfo failed!&quot;);</div><div class="line">          return;</div><div class="line">      &#125;</div><div class="line">      // 检测bitmap是不是这两种格式，因为算法中只有对这两种图片会做处理</div><div class="line">      if (infoIn.format != ANDROID_BITMAP_FORMAT_RGBA_8888 &amp;&amp;</div><div class="line">          infoIn.format != ANDROID_BITMAP_FORMAT_RGB_565) &#123;</div><div class="line">          LOG_D(&quot;Only support ANDROID_BITMAP_FORMAT_RGBA_8888 and ANDROID_BITMAP_FORMAT_RGB_565&quot;);</div><div class="line">          return;</div><div class="line">      &#125;</div><div class="line">      // 锁定图片</div><div class="line">      if (AndroidBitmap_lockPixels(env, bitmapIn, &amp;pixels) != ANDROID_BITMAP_RESULT_SUCCESS) &#123;</div><div class="line">          LOG_D(&quot;AndroidBitmap_lockPixels failed!&quot;);</div><div class="line">          return;</div><div class="line">      &#125;</div><div class="line">      // 得到宽高</div><div class="line">      int h = infoIn.height;</div><div class="line">      int w = infoIn.width；</div><div class="line">      if (infoIn.format == ANDROID_BITMAP_FORMAT_RGBA_8888) &#123;</div><div class="line">          // 调用stackblur.c中的blur_ARGB_8888()或blur_RGB_565()</div><div class="line">          pixels = blur_ARGB_8888((int *) pixels, w, h, r);</div><div class="line">      &#125; else if (infoIn.format == ANDROID_BITMAP_FORMAT_RGB_565) &#123;</div><div class="line">          pixels = blur_RGB_565((short *) pixels, w, h, r);</div><div class="line">      &#125;</div><div class="line">      // 对应上面的AndroidBitmap_lockPixels（）</div><div class="line">      AndroidBitmap_unlockPixels(env, bitmapIn);</div><div class="line">  &#125;</div><div class="line">#ifdef __cplusplus</div><div class="line">&#125;</div><div class="line">#endif</div><div class="line">#endif</div></pre></td></tr></table></figure>
+<p>5.生成.so动态库：Build-&gt;Rebuild Project完成后，会在build文件下生成相应平台的.so。<br>若失败试试<br><code>D:\workspace\ndk\NDKDemo\myapplication\src\main&gt;javah -d jni -classpath C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-20\android.jar;..\..\build\intermediates\classes\debug com.pecoo.myapplication.NativeUtils</code></p>
+<h3 id="虚化图片，实现效果："><a href="#虚化图片，实现效果：" class="headerlink" title="虚化图片，实现效果："></a>虚化图片，实现效果：</h3><p>对于截屏，获取到截屏的bitmap步骤这儿就忽略了，直接拿张资源图片进行处理，显示在界面上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">// 获得bitmap</div><div class="line">Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.blur_img);</div><div class="line">// 获得图片的宽高</div><div class="line">int width = bitmap.getWidth();</div><div class="line">int height = bitmap.getHeight();</div><div class="line">// 设置想要的大小</div><div class="line">Display display = getWindowManager().getDefaultDisplay();</div><div class="line">int newWidth = display.getWidth();</div><div class="line">int newHeight = display.getHeight();</div><div class="line">// 计算缩放比例</div><div class="line">float scaleWidth = ((float) newWidth) / width;</div><div class="line">float scaleHeight = ((float) newHeight) / height;</div><div class="line">Log.d(TAG, &quot;scaleWidth:&quot; + scaleWidth);</div><div class="line">Log.d(TAG, &quot;scaleHeight:&quot; + scaleHeight);</div><div class="line">// 取得想要缩放的matrix参数</div><div class="line">Matrix matrix = new Matrix();</div><div class="line">// matrix.postScale(scaleWidth, scaleHeight);</div><div class="line">// 实现模糊效果之前，这里可对bitmap进行更大缩放，减少像素点还可提高性能</div><div class="line">float scaleFactor = 10;</div><div class="line">float scale = 1f / scaleFactor;</div><div class="line">matrix.postScale(scale, scale);</div><div class="line">// 得到新的图片</div><div class="line">Bitmap newbm = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix,true);</div><div class="line">bitmap.recycle();</div></pre></td></tr></table></figure></p>
+<p>子线程中调用处理bitmap的本地函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">private void blur(final Bitmap bitmap, final int radius) &#123;</div><div class="line">    Thread thread = new Thread() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            super.run();</div><div class="line">            // blurNatively（）主要是检查图片是否为ARGB8888和RGB565,如果是则调用 NativeHelper中的本地方法blurBitmap（）</div><div class="line">            final Bitmap ret = blurNatively(bitmap, radius,true);</div><div class="line">            runOnUiThread(new Runnable() &#123;</div><div class="line">                @Override</div><div class="line">                public void run() &#123;</div><div class="line">                    mImageView.setBackground(new BitmapDrawable(getResources(), ret));</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    thread.start();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后把 <a href="https://github.com/jianjin33/BlurEffect" target="_blank" rel="external">github地址</a>发一下，仅供参考。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
