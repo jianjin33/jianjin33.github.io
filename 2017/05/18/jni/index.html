@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Java Native Interface"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Java Native Interface</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-18</span>
+            <span class="time">19:14:04</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/C/">#C</a> <a class="tag" href="/tags/JNI/">#JNI</a> <a class="tag" href="/tags/Java/">#Java</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>jni的常用方法和案例<br><a id="more"></a></p>
+<h3 id="JNI数据类型"><a href="#JNI数据类型" class="headerlink" title="JNI数据类型"></a>JNI数据类型</h3><p>Java基本数据类型与JNI数据类型的映射关系<br>JavaL类型-&gt;JNI类型-&gt;C类型</p>
+<h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><table>
+<thead>
+<tr>
+<th>jni</th>
+<th>java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jboolean</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>jbyte</td>
+<td>byte</td>
+</tr>
+<tr>
+<td>jchar</td>
+<td>char</td>
+</tr>
+<tr>
+<td>jshort</td>
+<td>short</td>
+</tr>
+<tr>
+<td>jint</td>
+<td>int</td>
+</tr>
+<tr>
+<td>jlong</td>
+<td>long</td>
+</tr>
+<tr>
+<td>jfloat</td>
+<td>float</td>
+</tr>
+<tr>
+<td>jdouble</td>
+<td>double</td>
+</tr>
+<tr>
+<td>void</td>
+<td>void</td>
+</tr>
+</tbody>
+</table>
+<h4 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h4><p>String jstring<br>object jobject<br>基本数据类型数组<br>byte[] jByteArray<br>对象数组<br>object<a href="String[]"></a> jobjectArray</p>
+<h3 id="C-C-访问Java的成员"><a href="#C-C-访问Java的成员" class="headerlink" title="C/C++访问Java的成员"></a>C/C++访问Java的成员</h3><p>案例：1.Java类中有个成员变量；2.main方法得到jni一个对象，然后调用对象中的方法；3.这个jni的方法需要得到Java类中的成员变量；4.jni中第二个参数依据方法是静态还是非静态，静态就是jclass，非静态是jobject，如果是jobject，操作如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">jcalss cls = (*env)-&gt;GetObjectClass(env,jobj);</div><div class="line">// 第三个参数是属性名，第四个参数是属性签名;拿到属性id</div><div class="line">jfieldID fid = (*env)-&gt;GetFieldID(env,cls,&quot;key&quot;,&quot;Ljava/lang/String;&quot;);</div><div class="line">// 获取到key属性的值</div><div class="line">jstring jstr = (*env)-&gt;GetObjectField(env,jobj,fid);</div><div class="line">// 如果需要修改jstr 需要将jstr转为c字符串</div><div class="line">// isCopy:第三个参数，三种：JNI_TRUE,JNI_FALSE,NULL,true代表复制，false代表不复制</div><div class="line">char* c_str = (*env)-&gt;GetStringUTFChars(env,jstr,NULL);</div><div class="line">// c方法拼接</div><div class="line">char text[20] = &quot;new&quot;;</div><div class="line">strcat(text, c_str);</div><div class="line">// c传jni字符串</div><div class="line">(*env)-&gt; new_jstr = (*evn)-&gt;newStringUTF(env,text);</div><div class="line">// 修改key</div><div class="line">（*env)-&gt;SetObjectField(evn,jobj,fid,new_jstr);</div><div class="line">return new_jstr;</div></pre></td></tr></table></figure></p>
+<p>访问静态属性，操作如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">jcalss cls = (*env)-&gt;GetObjectClass(env,jobj);</div><div class="line">jfieldID fid = (*env)-&gt;GetStaticFieldID(env,cls,&quot;count&quot;,&quot;I&quot;);</div><div class="line">jint cont = (*env)-&gt;GetStaticField(env,cls,fid);</div><div class="line">count ++;</div><div class="line">//修改</div><div class="line">（*env)-&gt;SetStaticIntField(evn,jobj,fid,count);</div></pre></td></tr></table></figure></p>
+<h3 id="访问Java方法"><a href="#访问Java方法" class="headerlink" title="访问Java方法"></a>访问Java方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public int getRandomInt(int max)&#123;</div><div class="line">    return new Random().nextInt(max);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jcalss cls = (*env)-&gt;GetObjectClass(env,jobj);</div><div class="line">jmethodId mid = (*env)-&gt;GetMethodID(env,cls,&quot;getRandomInt&quot;,&quot;(I)I&quot;);</div><div class="line">// 调用Call&lt;Type&gt;Method</div><div class="line">(*env)-&gt;CallIntMethod(env,jobj,mid,200);</div></pre></td></tr></table></figure>
+<p><strong>javap -s -p com.xxx.xxx.abc可得到签名</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2809446-d3a16757e16c16d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Java属性与方法签名列表.png"></p>
+<h3 id="访问Java静态方法"><a href="#访问Java静态方法" class="headerlink" title="访问Java静态方法"></a>访问Java静态方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public static String getUUID()&#123;</div><div class="line">    return UUID().randomUUID().toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">jcalss cls = (*env)-&gt;GetObjectClass(env,jobj);</div><div class="line">jmethodID mid = (*env)-&gt;GetStaticMethodID(env,cls,&quot;getUUID&quot;,&quot;签名&quot;);</div><div class="line">// 调用</div><div class="line">jstring uuid = (*env)-&gt;CallStaticObjectMethod(env,cls,mid);</div><div class="line">// 得到c字符串</div><div class="line">char* uuid_str = (*env)-&gt;GetStringUTFChars(env,uuid,JNI_FALSE);</div><div class="line">// 拼接</div><div class="line">char filename(100);</div><div class="line">printf(filename,&quot;D://%s.txt,uuid_str);</div><div class="line">// 生成一个文件</div><div class="line">FILE *fp = fopen(filename,&quot;w&quot;);</div><div class="line">fputs(&quot;i am jian&quot;,fp);</div><div class="line">fclose(fp);</div></pre></td></tr></table></figure>
+<h3 id="访问构造方法"><a href="#访问构造方法" class="headerlink" title="访问构造方法"></a>访问构造方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">jclass cls =(*env)-&gt;FindClass(env,&quot;java/util/Date&quot;);</div><div class="line">// jmethodID:</div><div class="line">jmethodID constructor_mid = (*env)-&gt;GetMethodID(env,cls,&quot;&lt;init&gt;&quot;,&quot;()V&quot;);</div><div class="line">// 实例化一个Data对象</div><div class="line">jobject date_obj(*env)-&gt;NewObject(env,cls,constructor_mid);</div><div class="line">// 调用getTime方法</div><div class="line">jmethodId mid = (*env)-&gt;GetMethodID(env,cls,&quot;getTime&quot;,&quot;()J&quot;);</div><div class="line">jlong time = (*env)-&gt;CallLongMethod(env,date_obj,mid);</div><div class="line">return date_obj</div></pre></td></tr></table></figure>
+<h3 id="访问父类的方法"><a href="#访问父类的方法" class="headerlink" title="访问父类的方法"></a>访问父类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">jclass cls = (*env)-&gt;GetObjectClass(env,jobj);</div><div class="line">// 获取属性（对象）</div><div class="line">jfieldID fid = (*env)-&gt;GetFieldID(env,cls,&quot;类名&quot;,&quot;签名&quot;);</div><div class="line">// 获取</div><div class="line">jobject _obj = (*env)-&gt;GetObject(env,jobj,fid);</div><div class="line">// 执行方法</div><div class="line">jcalss x_cls = (*env)-&gt;FindClass(env,&quot;com/xxx/xxx/xxx&quot;);</div><div class="line">jmethode mid = (*env)-&gt;GetMethodID(env,x_cls,&quot;方法&quot;,&quot;()V&quot;);</div><div class="line">// 执行方法</div><div class="line">(*env)-&gt;CallObjectMethod(env,x_obj,mid);</div><div class="line">// 执行父类方法,就是不覆盖父类方法</div><div class="line">(*env)-&gt;CallNonvirtualObjectMethod(env,x_obj,cls,mid);</div></pre></td></tr></table></figure>
+<p>GetObjectClass和FindClass: FindClass是指定的，效率不高，类型java的getClass()和Class.forname();有对象用第一种，无对象用第二种</p>
+<h3 id="中文问题"><a href="#中文问题" class="headerlink" title="中文问题"></a>中文问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">JNIEXPORT jstring JNICALL Java_com_dongnaoedu_jni_JniTest_chineseChars</div><div class="line">(JNIEnv *env, jobject jobj, jstring in)&#123;</div><div class="line">	// 输出</div><div class="line">	//char *c_str = (*env)-&gt;GetStringUTFChars(env, in, JNI_FALSE);</div><div class="line">	//printf(&quot;%s\n&quot;,c_str);</div><div class="line">	// c -&gt; jstring</div><div class="line">	char *c_str = &quot;马蓉与宋江&quot;;</div><div class="line">	// char c_str[] = &quot;马蓉与宋喆&quot;;</div><div class="line">	//jstring jstr = (*env)-&gt;NewStringUTF(env, c_str);</div><div class="line">	// 执行String(byte bytes[], String charsetName)构造方法需要的条件</div><div class="line">	// 1.jmethodID</div><div class="line">	// 2.byte数组</div><div class="line">	// 3.字符编码jstring</div><div class="line">	jclass str_cls = (*env)-&gt;FindClass(env, &quot;java/lang/String&quot;);</div><div class="line">	jmethodID constructor_mid = (*env)-&gt;GetMethodID(env, str_cls, &quot;&lt;init&gt;&quot;, &quot;([BLjava/lang/String;)V&quot;);</div><div class="line">	// jbyte -&gt; char </div><div class="line">	// jbyteArray -&gt; char[]</div><div class="line">	jbyteArray bytes = (*env)-&gt;NewByteArray(env, strlen(c_str));</div><div class="line">	// byte数组赋值</div><div class="line">	// 0-&gt;strlen(c_str)，从头到尾</div><div class="line">	// 对等于，从c_str这个字符数组，复制到bytes这个字符数组</div><div class="line">	(*env)-&gt;SetByteArrayRegion(env, bytes, 0, strlen(c_str), c_str);</div><div class="line">	// 字符编码jstring</div><div class="line">	jstring charsetName = (*env)-&gt;NewStringUTF(env, &quot;GB2312&quot;);</div><div class="line">	//  调用构造函数，返回编码之后的jstring</div><div class="line">	return (*env)-&gt;NewObject(env,str_cls,constructor_mid,bytes,charsetName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="数组排序"><a href="#数组排序" class="headerlink" title="数组排序"></a>数组排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">int compare(int *a,int *b)&#123;</div><div class="line">	return (*a) - (*b);</div><div class="line">&#125;</div><div class="line">//传入</div><div class="line">JNIEXPORT void JNICALL Java_com_dongnaoedu_jni_JniTest_giveArray</div><div class="line">(JNIEnv *env, jobject jobj, jintArray arr)&#123;</div><div class="line">	//jintArray -&gt; jint指针 -&gt; c int 数组</div><div class="line">	jint *elems = (*env)-&gt;GetIntArrayElements(env, arr, NULL);</div><div class="line">	//printf(&quot;%#x,%#x\n&quot;, &amp;elems, &amp;arr);</div><div class="line">	//数组的长度</div><div class="line">	int len = (*env)-&gt;GetArrayLength(env, arr);</div><div class="line">	//排序</div><div class="line">	qsort(elems, len, sizeof(jint), compare);	</div><div class="line">	//同步</div><div class="line">	//mode</div><div class="line">	//0, Java数组进行更新，并且释放C/C++数组</div><div class="line">	//JNI_ABORT, Java数组不进行更新，但是释放C/C++数组</div><div class="line">	//JNI_COMMIT，Java数组进行更新，不释放C/C++数组（函数执行完，数组还是会释放）</div><div class="line">	(*env)-&gt;ReleaseIntArrayElements(env, arr, elems, JNI_COMMIT);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="返回数组"><a href="#返回数组" class="headerlink" title="返回数组"></a>返回数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">JNIEXPORT jintArray JNICALL Java_com_dongnaoedu_jni_JniTest_getArray(JNIEnv *env, jobject jobj, jint len)&#123;</div><div class="line">	// 创建一个指定大小的数组</div><div class="line">	jintArray jint_arr = (*env)-&gt;NewIntArray(env, len);</div><div class="line">	jint *elems = (*env)-&gt;GetIntArrayElements(env, jint_arr, NULL);	</div><div class="line">	int i = 0;</div><div class="line">	for (; i &lt; len; i++)&#123;</div><div class="line">		elems[i] = i;</div><div class="line">	&#125;</div><div class="line">	// 同步</div><div class="line">	(*env)-&gt;ReleaseIntArrayElements(env, jint_arr, elems, 0);	</div><div class="line">	return jint_arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
