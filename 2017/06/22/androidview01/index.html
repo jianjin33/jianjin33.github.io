@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="jianjin33"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Untitled Post</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-06-22</span>
+            <span class="time">10:57:58</span>
+          </span>
+          
+        </div>
+        <!-- Tags -->
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <hr>
+<p>title: View之Paint、Canvas、Path<br>date: 2017-06-22 10:55:42<br>tags: Android</p>
+<h2 id="category-技术"><a href="#category-技术" class="headerlink" title="category: [技术]"></a>category: [技术]</h2><p>Andoird——自定义控件基础篇<br><a id="more"></a></p>
+<h2 id="Paint"><a href="#Paint" class="headerlink" title="Paint"></a>Paint</h2><h3 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h3><ul>
+<li>setAntiAlias：抗锯齿  </li>
+<li>setDither：抗抖动</li>
+<li>setColor,setARGB,setAlpha：颜色和透明度</li>
+<li>setShadowLayer(10f, 11f,5f, Color.YELLOW); 设置阴影效果，第一个参数为模糊半径，越大越模糊。 第二个参数是阴影离开文字的x横向距离。 第三个参数是阴影离开文字的Y横向距离。 第四个参数是阴影颜色。</li>
+<li>setTextSize：设置字体大小</li>
+<li>setStyle：设置画笔风格，空心或实心</li>
+</ul>
+<h5 id="setStyle的三个Paint-Style参数："><a href="#setStyle的三个Paint-Style参数：" class="headerlink" title="setStyle的三个Paint.Style参数："></a>setStyle的三个Paint.Style参数：</h5><ul>
+<li>Paint.Style.FILL：绘制的几何图形和文本将会被填充，忽略了在paint里设置的与stroke相关的属性；</li>
+<li>Paint.Style. STROKE：绘制的几何图形和文本将会被画笔进行绘制，遵从在paint里设置的与stroke相关的属性（例如 setStrokeWidth()、setStrokeJoin()中所设置的属性）；</li>
+<li><p>Paint.Style.FILL_AND_STROKE：同时应用前面两种风格进行绘制。<br>所以Paint.Style.FILL和Paint.Style.STROKE最大的区别应该是，前者指的是将几何体或文本填充满，而后者着重的是用笔一样的画，强调的是一种线条，当然这种线条可以设置粗细，所以后者常常跟paint.setStrokeWidth()一起使用。</p>
+<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h2><p>Canvas中细化的内容相对较多，这里就绘制一些常规的图像效果做个笔记。  </p>
+</li>
+<li><p>绘制点</p>
+<pre><code>// 点的坐标 x0,y0,x1,y1......
+float[] pts = { 50, 50, 100, 100, 200, 200, 300, 300, 0, 100, 100, 0 };
+canvas.drawPoints(pts, paint);
+// 绘制点的时候，隔着几个点绘制几个，最多不到多少点
+canvas.drawPoints(pts, 1, 6, paint); 
+</code></pre></li>
+<li><p>绘制线</p>
+<pre><code>// x0,y0,x1,y1
+float[] pts = { 100, 100, 200, 200, 200, 200, 300, 200, 300, 200, 300, 400 };
+// 以上是6个点的x,y坐标，两两连成线段
+canvas.drawLines(pts, paint);
+//画出一根线  
+canvas.drawLine(0, 0, 200, 200, paint);  
+</code></pre></li>
+<li><p>绘制矩形        </p>
+<pre><code>//画矩形  
+canvas.drawRect(200, 500, 300, 300, paint);  
+</code></pre></li>
+<li><p>绘制圆        </p>
+<pre><code>//画圆  
+canvas.drawCircle(200, 200, 100, paint);  
+</code></pre></li>
+<li><p>绘制字符串   </p>
+<pre><code>//画出字符串 drawText(String text, float x, float y, Paint paint)   
+// y 是 基准线 ，不是字符串的底部  
+canvas.drawText(&quot;apple&quot;, 60, 60, paint);  
+//将文字设置到指定路径上
+Path path = new Path();
+paint.setTextSize(50);
+path.addCircle(200, 200, 150, Direction.CCW);
+canvas.drawTextOnPath(&quot;android&quot;, path, 0, 0, paint);
+</code></pre></li>
+<li><p>绘制圆弧</p>
+<pre><code>//指定放置圆弧的矩形
+RectF oval=new RectF(10,10,210,210);
+//绘制圆弧-0是指开始度数，270是指结束度数 false是指不连接圆心，paint是画笔
+canvas.drawArc(oval, 0, 270, false, paint);
+</code></pre></li>
+<li><p>绘制椭圆</p>
+<pre><code>//指定矩形，指定画笔  
+canvas.drawOval(oval, paint);
+</code></pre></li>
+<li><p>绘制图片     </p>
+<pre><code>//绘制图片  
+canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), 150, 150, paint);  
+</code></pre></li>
+<li><p>二阶贝塞尔曲线</p>
+<pre><code>mPath.reset();
+//起点
+mPath.moveTo(startPoint.x, startPoint.y);
+//mPath
+mPath.quadTo(assistPoint.x, assistPoint.y, endPoint.x, endPoint.y);
+//画path
+canvas.drawPath(mPath, mPaint);
+</code></pre></li>
+</ul>
+<ul>
+<li><p>三阶贝塞尔曲线</p>
+<pre><code>//起点
+mPath.moveTo(startPoint.x, startPoint.y);
+//mPath
+mPath.cubicTo(assistPoint1.x, assistPoint1.y, assistPoint2.x, assistPoint2.y, endPoint.x, endPoint.y);
+//画path
+canvas.drawPath(mPath, mPaint);
+</code></pre></li>
+</ul>
+<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p>刚刚绘制贝塞尔曲线时用到了path，这里对path也做一下基本笔记</p>
+<h5 id="1-基本绘图方法"><a href="#1-基本绘图方法" class="headerlink" title="1.基本绘图方法"></a>1.基本绘图方法</h5><ul>
+<li>addArc(RectF oval, float startAngle, float sweepAngle)<br>绘制弧线,配合Paint的Style可以实现不同的填充效果</li>
+<li>addCircle(float x, float y, float radius, Path.Direction dir)<br>绘制圆形,其中第dir参数用来指定绘制时是顺时针还是逆时针</li>
+<li>addOval(RectF oval, Path.Direction dir)<br>绘制椭圆形，其中 oval作为椭圆的外切矩形区域</li>
+<li>addRect(RectF rect, Path.Direction dir)绘制矩形</li>
+<li>addRoundRect(RectF rect, float rx, float ry, Path.Direction dir)绘制圆角矩形</li>
+<li>lineTo(float x, float y) 绘制直线，和canvas.drawLine实现相同效果</li>
+<li>addPath(Path src)添加一个新的Path到当前Path</li>
+<li>arcTo(RectF oval, float startAngle, float sweepAngle, boolean forceMoveTo)<br>与addArc方法相似，但也有区别。</li>
+<li>quadTo(float x1, float y1, float x2, float y2)<br>绘制二次贝塞尔曲线,其中 (x1,y1)为控制点，(x2,y2)为终点</li>
+<li>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)<br>绘制三次贝塞尔曲线，其中(x1,y1),(x2,y2)为控制点，(x3,y3)为终点</li>
+</ul>
+<h5 id="2-rXXX方法"><a href="#2-rXXX方法" class="headerlink" title="2.rXXX方法"></a>2.rXXX方法</h5><p>上面的lineTo,MoveTo,QuadTo,CubicTo方法都有与之对应的rXXX方法：</p>
+<pre><code>rLineTo(float dx, float dy)
+rMoveTo(float dx, float dy)
+rQuadTo(float dx1, float dy1, float dx2, float dy2)
+rCubicTo(float x1, float y1, float x2, float y2, float x3, float y3)
+</code></pre><p>这些方法与之对应的原方法相比，惟一的区别在于：r方法是基于当前绘制开始点的offest,比如当前paint位于 (100,100)处，则使用rLineTo(100,100)方法绘制出来的直线是从(100,100)到(200,200)的一条直接，由此可见rXXX方法方便用来基于之前的绘制作连续绘制。</p>
+<h5 id="3-Path-op方法"><a href="#3-Path-op方法" class="headerlink" title="3.Path.op方法"></a>3.Path.op方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//原型</div><div class="line">op(Path path, Path.Op op)</div><div class="line">//eg</div><div class="line">path1.op(path2,Path.Op.DIFFERENCE);</div></pre></td></tr></table></figure>
+<p>此方法用于对两个Path对象做相应的运算组合(combine),具体的说是根据不同的op参数及path2参数来影响path1对象，有点类似于数学上的集合运算。如：</p>
+<pre><code>eg:
+Path path1 = new Path();
+path1.addCircle(150, 150, 100, Path.Direction.CW);
+Path path2 = new Path();
+path2.addCircle(200, 200, 100, Path.Direction.CW);
+path1.op(path2, Path.Op.DIFFERENCE);
+canvas.drawPath(path1, paint1);
+</code></pre><p>效果图：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-069c80f12ee9211a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DIFFERENCE"></p>
+<p>通过修改path1.op的第二个参数依次可以得到如下效果:<br>Path.Op.INTERSECT效果：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-3ad39582425fd560.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="INTERSECT"><br>Path.Op.UNION效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2809446-dce97e230df42129.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UNION"></p>
+<p>Path.Op.REVERSE_DIFFERENCE效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2809446-52c41fc9c0fbac81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="REVERSE_DIFFERENCE"></p>
+<p>Path.Op.XOR效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2809446-4f78a03c7892198d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="XOR"></p>
+<pre><code>Path.Op.DIFFERENCE 减去path1中path1与path2都存在的部分;
+path1 = (path1 - path1 ∩ path2)
+Path.Op.INTERSECT 保留path1与path2共同的部分;
+path1 = path1 ∩ path2
+Path.Op.UNION 取path1与path2的并集;
+path1 = path1 ∪ path2
+Path.Op.REVERSE_DIFFERENCE 与DIFFERENCE刚好相反;
+path1 = path2 - (path1 ∩ path2)
+Path.Op.XOR 与INTERSECT刚好相反;
+path1 = (path1 ∪ path2) - (path1 ∩ path2)
+</code></pre><h5 id="4-addArc-与-arcTo"><a href="#4-addArc-与-arcTo" class="headerlink" title="4.addArc 与 arcTo"></a>4.addArc 与 arcTo</h5><p>前者指定在某处画一条弧线，仅此而已，不会受当前paint的位置所影响。而arcTo方法有两种形式:</p>
+<pre><code>arcTo(RectF oval, float startAngle, float sweepAngle, boolean forceMoveTo)
+
+arcTo(RectF oval, float startAngle, float sweepAngle)
+</code></pre><p>对于第一种形式的方法，若forceMoveTo参数为false，则与第二种形式的方法没区别，绘制成的最终图形会受到落笔点的影响，可以划出个扇形；<br>    若forceMoveTo参数值为true，则绘制效果与addArc方法没有区别。</p>
+<h5 id="5-reset-与-rewind"><a href="#5-reset-与-rewind" class="headerlink" title="5.reset 与 rewind"></a>5.reset 与 rewind</h5><p>reset清除path上的内容，重置path到 path = new Path()的初始状态。<br>rewind清除path上的内容，但会保留path上相关的数据结构，以高效的复用。</p>
+<h5 id="6-其它方法"><a href="#6-其它方法" class="headerlink" title="6.其它方法"></a>6.其它方法</h5><pre><code>moveTo(float x,float y)
+移动画笔到 (x,y) 处
+offset(float dx, float dy)
+平移当前path,在此path上绘制的任何图形都会受到影响
+close()
+闭合当前路径 (系统会自动从起点到终点绘制一条直线，使当前路径闭合)
+reset()
+重置path,但不会重置fill-type设置
+rewind()
+重置path,但会保留内部数据结构
+set(Path src)
+设置新的Path到当前对象
+setLastPoint(float x,float y)
+设置当前path的终点
+transform(Matrix matrix)
+矩阵变换
+</code></pre><p>setFillType</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
