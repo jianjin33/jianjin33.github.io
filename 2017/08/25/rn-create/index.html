@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Android项目引入ReactNative"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Android项目引入ReactNative</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-08-25</span>
+            <span class="time">16:17:31</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Android/">#Android</a> <a class="tag" href="/tags/ReactNative/">#ReactNative</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>Android项目引入RN的步骤<br><a id="more"></a></p>
+<p>之前在学习RN时，创建RN项目一般都是通过react-native init xxx来实现。最近需要在项目中运用到RN，查看官网的说明也不是很详细，网上也有很多帖子，但是也遇到很多坑，这篇主要是记录一下项目添加RN的步骤以及过程中遇的到问题和解决方法。都是固定的套路和步骤，没有太多技术含量，记录一下。</p>
+<p>首先肯定是需要配置RN开发环境，这里就不再累赘。</p>
+<h2 id="一、项目根目录创建package-json"><a href="#一、项目根目录创建package-json" class="headerlink" title="一、项目根目录创建package.json"></a>一、项目根目录创建package.json</h2><p>cmd或者Terminal进入项目根目录，通过<code>npm init</code>依次输入name(不能为大写) description author password等等，其中的name最为重要，其他的可以不用写。这个name对应接下来注册用到的必须一致，否则运行时会出现<code>Module AppRegistry is not a registered callable module</code>和<code>undefined is not an object(ecaluating &#39;ReactInternals.ReactCurrentOwner&#39;)</code>的错误。完成后会生成一个如下所示的json文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;aspactjdemo&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</div><div class="line">  &quot;description&quot;: &quot;aspactjdemo&quot;,</div><div class="line">  &quot;main&quot;: &quot;index.js&quot;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    // 注意：这行启动脚本，生成json时并没有，需要手动粘贴上，粘贴时注意遵循json格式</div><div class="line">    &quot;start&quot;: &quot;node node_modules/react-native/local-cli/cli.js start&quot;,</div><div class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;author&quot;: &quot;jzm&quot;,</div><div class="line">  &quot;license&quot;: &quot;ISC&quot;,</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;react&quot;: &quot;^15.6.1&quot;,</div><div class="line">    &quot;react-native&quot;: &quot;^0.47.2&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="二、添加react和react-native-模块"><a href="#二、添加react和react-native-模块" class="headerlink" title="二、添加react和react-native 模块"></a>二、添加react和react-native 模块</h2><p>在根目录执行如下代码：<br><code>npm install --save react react-native</code><br>下载react-native模块，时间较长，两分钟左右。执行完成后会出现下图的node_modules：<br><img src="http://upload-images.jianshu.io/upload_images/2809446-ecda10063daab5e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rn_01.png"></p>
+<h2 id="二、添加index-android-js文件到项目中："><a href="#二、添加index-android-js文件到项目中：" class="headerlink" title="二、添加index.android.js文件到项目中："></a>二、添加index.android.js文件到项目中：</h2><p>这个就不用多说了，很简单，注意一下AppRegistry.registerComponent(‘aspactjdemo’, () =&gt; Demo)就行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">import React, &#123; Component &#125; from &apos;react&apos;;</div><div class="line">import &#123;</div><div class="line">  AppRegistry,</div><div class="line">  StyleSheet,</div><div class="line">  Text,</div><div class="line">  View</div><div class="line">&#125; from &apos;react-native&apos;;</div><div class="line">export default class Demo extends Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      &lt;View style=&#123;styles.container&#125;&gt;</div><div class="line">        &lt;Text style=&#123;styles.welcome&#125;&gt;</div><div class="line">          Welcome to React Native!</div><div class="line">        &lt;/Text&gt;</div><div class="line">        &lt;Text style=&#123;styles.instructions&#125;&gt;</div><div class="line">          To get started, edit index.android.js</div><div class="line">        &lt;/Text&gt;</div><div class="line">        &lt;Text style=&#123;styles.instructions&#125;&gt;</div><div class="line">          这是一个ReactNative界面,&#123;&apos;\n&apos;&#125;测试</div><div class="line">        &lt;/Text&gt;</div><div class="line">      &lt;/View&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">  container: &#123;</div><div class="line">    flex: 1,</div><div class="line">    justifyContent: &apos;center&apos;,</div><div class="line">    alignItems: &apos;center&apos;,</div><div class="line">    backgroundColor: &apos;#F5FCFF&apos;,</div><div class="line">  &#125;,</div><div class="line">  welcome: &#123;</div><div class="line">    fontSize: 20,</div><div class="line">    textAlign: &apos;center&apos;,</div><div class="line">    margin: 10,</div><div class="line">  &#125;,</div><div class="line">  instructions: &#123;</div><div class="line">    textAlign: &apos;center&apos;,</div><div class="line">    color: &apos;#333333&apos;,</div><div class="line">    marginBottom: 5,</div><div class="line">  &#125;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 这个名字必须要和第一步中的name一致，这个Demo对应 上面的Class Demo extends Component</div><div class="line">AppRegistry.registerComponent(&apos;aspactjdemo&apos;, () =&gt; Demo);</div></pre></td></tr></table></figure></p>
+<h2 id="三、添加ReactNative相关依赖"><a href="#三、添加ReactNative相关依赖" class="headerlink" title="三、添加ReactNative相关依赖"></a>三、添加ReactNative相关依赖</h2><ol>
+<li>在app的build.gradle文件中添加react-native依赖库<br><code>compile &quot;com.facebook.react:react-native:+&quot;</code></li>
+<li><p>在project的build.gradle文件中添加react-native路径<br>注意：这里注意不要使用maven中的，因为我们使用的是我们本地的node_modules</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">allprojects &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">        maven &#123;</div><div class="line">            // All of React Native (JS, Android binaries) is installed from npm</div><div class="line">            // node_modules的路径检查一遍，复制网上帖子的</div><div class="line">            // url &quot;$rootDir/../node_modules/react-native/android&quot;给坑了，在重写Application时，找不到ReactApplictaion这个接口</div><div class="line">            url &quot;$rootDir/node_modules/react-native/android&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>同步，会报错：<br><code>Error:Conflict with dependency &#39;com.google.code.findbugs:jsr305&#39;. Resolved versions for app (3.0.0) and test app (2.0.1) differ.</code></p>
+</li>
+</ol>
+<ul>
+<li>解决方法：在module层的build.gradle中添加：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ...</div><div class="line">    ...</div><div class="line">    configurations.all &#123;</div><div class="line">        resolutionStrategy.force &apos;com.google.code.findbugs:jsr305:3.0.0&apos;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="四、添加相关权限和支持NDK："><a href="#四、添加相关权限和支持NDK：" class="headerlink" title="四、添加相关权限和支持NDK："></a>四、添加相关权限和支持NDK：</h2><ol>
+<li>在AndroidManifest.xml中添加如下代码：<br><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ...</div><div class="line">    defaultConfig &#123;</div><div class="line">        ...</div><div class="line">        ndk &#123;</div><div class="line">            abiFilters &quot;armeabi-v7a&quot;, &quot;x86&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>gradle.properties:<br><code>android.useDeprecatedNdk=true</code></p>
+</li>
+</ol>
+<h2 id="五、添加reactnative组件："><a href="#五、添加reactnative组件：" class="headerlink" title="五、添加reactnative组件："></a>五、添加reactnative组件：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</div><div class="line">    android:orientation=&quot;vertical&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;</div><div class="line">        &lt;com.facebook.react.ReactRootView</div><div class="line">            android:id=&quot;@+id/react_root_view&quot;</div><div class="line">            android:layout_width=&quot;300dp&quot;</div><div class="line">            android:layout_height=&quot;300dp&quot;/&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line">    ReactRootView react_root_view ;</div><div class="line">    ReactInstanceManager mReactInstanceManager;</div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        react_root_view = (ReactRootView) findViewById(R.id.react_root_view);</div><div class="line">        mReactInstanceManager =ReactInstanceManager.builder()</div><div class="line">                .setApplication(getApplication())</div><div class="line">                .setBundleAssetName(&quot;index.android.bundle&quot;)</div><div class="line">                .setJSMainModuleName(&quot;index.android&quot;)</div><div class="line">                .addPackage(new MainReactPackage())</div><div class="line">                .setUseDeveloperSupport(BuildConfig.DEBUG)</div><div class="line">                .setInitialLifecycleState(LifecycleState.RESUMED)</div><div class="line">                .build();</div><div class="line">        // aspectjdemo是项目名，需要和index.adnroid.js、json中的保持一致</div><div class="line">        react_root_view.startReactApplication(mReactInstanceManager, &quot;aspectjdemo&quot;, null);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也可以通过Activity继承ReactActivity来实现。</p>
+<h2 id="六、添加DevSettingsActivity配置"><a href="#六、添加DevSettingsActivity配置" class="headerlink" title="六、添加DevSettingsActivity配置"></a>六、添加DevSettingsActivity配置</h2><p> <code>&lt;activity android:name=&quot;com.facebook.react.devsupport.DevSettingsActivity&quot; /&gt;</code></p>
+<h2 id="七、自定义Appliction"><a href="#七、自定义Appliction" class="headerlink" title="七、自定义Appliction"></a>七、自定义Appliction</h2><p>需要自定义Application然后去实现ReactApplication接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">import android.app.Application;</div><div class="line">import com.facebook.react.ReactApplication;</div><div class="line">import com.facebook.react.ReactNativeHost;</div><div class="line">import com.facebook.react.ReactPackage;</div><div class="line">import com.facebook.react.shell.MainReactPackage;</div><div class="line">import com.facebook.soloader.SoLoader;</div><div class="line">import java.util.Arrays;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class MainApplication extends Application implements ReactApplication &#123;</div><div class="line">    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) &#123;</div><div class="line">        @Override</div><div class="line">        public boolean getUseDeveloperSupport() &#123;</div><div class="line">            return BuildConfig.DEBUG;</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        protected List&lt;ReactPackage&gt; getPackages() &#123;</div><div class="line">            return Arrays.&lt;ReactPackage&gt;asList(</div><div class="line">                    new MainReactPackage()</div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    @Override</div><div class="line">    public ReactNativeHost getReactNativeHost() &#123;</div><div class="line">        return mReactNativeHost;</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        SoLoader.init(this, /* native exopackage */ false);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="七、-运行："><a href="#七、-运行：" class="headerlink" title="七、 运行："></a>七、 运行：</h2><p><code>Unable to load script form assets&#39;index.android.bunlde&#39;.Make sure your bundle is packaged correctly...</code></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2809446-1354f917f5a0e6c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rn_02.png"></p>
+<p>嗯是的，忘了开服务：进项目根目录，通过<code>npm start</code>开启服务，摇一摇配置一下IP+端口。</p>
+<p>也可以通过打包的方式生成bundle</p>
+<ol>
+<li>main下创建assets</li>
+<li>根目录下执行：<br><code>react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output AspectJDemo/app/src/main/assets/index.android.bundle --assets-dest AspectJDemo/app
+/src/main/res/</code><br>生成如下图两个文件，再运行就OK了，这种适合上线打包，平时的调试使用server较方便，在开发环境下，为方便调试，APP会在启动时从JS Server服务器将index.android.bundle文件加载到APP。。<br><img src="http://upload-images.jianshu.io/upload_images/2809446-eb8e9c50cf42fb02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rn_03.png"></li>
+</ol>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
