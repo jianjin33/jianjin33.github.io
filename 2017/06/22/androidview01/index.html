@@ -109,7 +109,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-06-22</span>
-            <span class="time">16:41:13</span>
+            <span class="time">18:39:35</span>
           </span>
           
           <!--  Categories  -->
@@ -144,8 +144,17 @@
 <li>Paint.Style.FILL：绘制的几何图形和文本将会被填充，忽略了在paint里设置的与stroke相关的属性；</li>
 <li>Paint.Style. STROKE：绘制的几何图形和文本将会被画笔进行绘制，遵从在paint里设置的与stroke相关的属性（例如 setStrokeWidth()、setStrokeJoin()中所设置的属性）；</li>
 <li><p>Paint.Style.FILL_AND_STROKE：同时应用前面两种风格进行绘制。<br>所以Paint.Style.FILL和Paint.Style.STROKE最大的区别应该是，前者指的是将几何体或文本填充满，而后者着重的是用笔一样的画，强调的是一种线条，当然这种线条可以设置粗细，所以后者常常跟paint.setStrokeWidth()一起使用。</p>
-<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h2><p>Canvas中细化的内容相对较多，这里就绘制一些常规的图像效果做个笔记。  </p>
+<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h2><p>Canvas中细化的内容相对较多，这里就绘制一些常规的图像效果做个笔记。还有关于canvas.rotate,translate的理解，canvas的save()和restore()，restoreToCount()。其他常用的还有saveLayer()在另一篇笔记介绍； </p>
 </li>
+<li><p>先说一下canvas.rotate()，只要记住2点就可以了：</p>
+<ol>
+<li>每个canvas.draw()方法都在新画布绘制图形，最后呈现的效果是多个画布（每次draw就有一个画布）叠加的结果；</li>
+<li>rotate，translate方法会使坐标轴发生变化，画布方向没有变化。</li>
+</ol>
+</li>
+<li>canvas.save();和canvas.restore();是两个相互匹配出现的，作用是用来保存画布的状态和取出保存的状态的。  当我们对画布进行旋转，缩放，平移等操作的时候其实我们是想对特定的元素进行操作，比如图片，一个矩形等，但是当你用canvas的方法来进行这些操作的时候，其实是对整个画布进行了操作，那么之后在画布上的元素都会受到影响，所以我们在操作之前调用canvas.save()来保存画布当前的状态，当操作之后取出之前保存过的状态，这样就不会对其他的元素进行影响。</li>
+</ul>
+<ul>
 <li><p>绘制点</p>
 <pre><code>// 点的坐标 x0,y0,x1,y1......
 float[] pts = { 50, 50, 100, 100, 200, 200, 300, 300, 0, 100, 100, 0 };
@@ -213,7 +222,7 @@ mPath.cubicTo(assistPoint1.x, assistPoint1.y, assistPoint2.x, assistPoint2.y, en
 canvas.drawPath(mPath, mPaint);
 </code></pre></li>
 </ul>
-<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p>刚刚绘制贝塞尔曲线时用到了path，这里对path也做一下基本笔记</p>
+<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p>刚刚绘制贝塞尔曲线时用到了path，这里对path也做一下基本笔记；关于path.setXfermode(new PorterDuffXfermode())和PathMearsure这里没做笔记，以后有时间补充，这篇只是记录最为基础的用法。</p>
 <h5 id="1-基本绘图方法"><a href="#1-基本绘图方法" class="headerlink" title="1.基本绘图方法"></a>1.基本绘图方法</h5><ul>
 <li>addArc(RectF oval, float startAngle, float sweepAngle)<br>绘制弧线,配合Paint的Style可以实现不同的填充效果</li>
 <li>addCircle(float x, float y, float radius, Path.Direction dir)<br>绘制圆形,其中第dir参数用来指定绘制时是顺时针还是逆时针</li>
