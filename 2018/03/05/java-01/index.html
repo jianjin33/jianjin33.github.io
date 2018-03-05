@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="简祖明">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Java基础（1）"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="jianjin33"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="jianjin33" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>jianjin33</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Java基础（1）</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  文章
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://www.jianshu.com/u/4079f82f6280">
+                  
+                  简书
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/jianjin33">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:jianjin33@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 简祖明</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-03-05</span>
+            <span class="time">17:22:10</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/技术/">技术</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Java/">#Java</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>Java基础篇<br><a id="more"></a></p>
+<h4 id="java中-和equals和hashCode的区别"><a href="#java中-和equals和hashCode的区别" class="headerlink" title="java中==和equals和hashCode的区别"></a>java中==和equals和hashCode的区别</h4><ul>
+<li>==：运算符，比较变量是否相等，或者两个对象的地址值是否相同。</li>
+<li>equals是Object类的方法，方法默认比较两对象在内存中的地址值是否相等。</li>
+<li>hashcode也是Object类的方法，返回的是离散int型整数。在集合的操作中，可提高查询速度。</li>
+</ul>
+<p>三者区别：根据java的数据类型，如果是基本数据类型进行比较，使用== 运算符比较两者间的值。如果是复合数据类型（对象）使用==比较的为地址值，使用equels又分两种，第一种如String,Integer,Date等重写equels方法，有其自身的比较方式,如String遍历char类型做比较：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object anObject) &#123;</div><div class="line">        if (this == anObject) &#123;</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">        if (anObject instanceof String) &#123;</div><div class="line">            String anotherString = (String) anObject;</div><div class="line">            int n = count;</div><div class="line">            if (n == anotherString.count) &#123;</div><div class="line">                int i = 0;</div><div class="line">                while (n-- != 0) &#123;</div><div class="line">                    if (charAt(i) != anotherString.charAt(i))</div><div class="line">                            return false;</div><div class="line">                    i++;</div><div class="line">                &#125;</div><div class="line">                return true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>第二种不覆盖equels方法则同== 相同，比较的为内存中的地址值。</p>
+<p>如果equals方法相等，两对象hashCode方法产生相等的int结果，不相等则不一定产生相同结果。</p>
+<p>集合的操作规则：对象放入结合中，先比较hashCode值，不同则放入，相同则通过equals方法判断与集合中任意一个对象是否相等，不相等则放入。get去元素时，HashMap也先调key.hashCode()算出数组下标，再看equals()true则返回。</p>
+<blockquote>
+<p>具体参考EffectiveJava第8条。</p>
+</blockquote>
+<h4 id="int、char、long各占多少字节数"><a href="#int、char、long各占多少字节数" class="headerlink" title="int、char、long各占多少字节数"></a>int、char、long各占多少字节数</h4><p>int 4 short 2 long 8 byte 1</p>
+<p>float 4 double 8</p>
+<p>char 2</p>
+<p>boolean 1</p>
+<p>1byte = 8bit</p>
+<h4 id="int与integer的区别"><a href="#int与integer的区别" class="headerlink" title="int与integer的区别"></a>int与integer的区别</h4><p>Integer是int的包装类，int可直接赋值，存放常量池中，默认值为0，Integer必须实例化后才能使用，存放在堆内存中，默认值当然是null。</p>
+<p>还有自动拆装箱和Integer缓冲区问题：</p>
+<p>举例说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Integer a = new Integer(100);</div><div class="line">Integer b = new Integer(100);</div><div class="line">System.out.print(a == b);   // 不同对象地址值肯定不相等</div><div class="line">int c = 100;</div><div class="line">System.out.print(a == c);   // true a自动拆包装为int</div><div class="line">Integer d = 100;</div><div class="line">Integer e = 100;</div><div class="line">System.out.print(a == d);   // false 非new的Integer在常量池中</div><div class="line">System.out.print(d == e);   // true</div><div class="line">Integer i = 128;</div><div class="line">Integer j = 128;</div><div class="line">System.out.print(i == j);   // false Integer i = 100;时，会翻译成为Integer i = Integer.valueOf(100)；</div><div class="line"></div><div class="line">// 在 -128 到 127之间就不需要new</div><div class="line">public static Integer valueOf(int i)&#123;</div><div class="line">    assert IntegerCache.high &gt;= 127;</div><div class="line">    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)&#123;</div><div class="line">        return IntegerCache.cache[i + (-IntegerCache.low)];</div><div class="line">    &#125;</div><div class="line">    return new Integer(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="对java多态的理解"><a href="#对java多态的理解" class="headerlink" title="对java多态的理解"></a>对java多态的理解</h4><p>前提条件：</p>
+<ol>
+<li>继承 ；</li>
+<li>重写；</li>
+<li>父类的引用指向子类。</li>
+</ol>
+<p><strong>里氏替代原则就是依靠多态。</strong></p>
+<p>核心内容：</p>
+<ol>
+<li>程序中定义的引用指向子类和通过引用调用的方法，在代码编译时期是不确定的，只有当程序运行时，通过具体的子类对象，调用子类重写方法，这样就不需要修改源代码，让引用绑定到不同的子类实现上，让程序具有多种运行的形态，这就是多态</li>
+<li>子类的引用由于向上转型，如果子类的方法不是通过父类重写的，则通过引用无法调用该方法。调用子类重写的方法，成为动态连接或动态调用。</li>
+<li>调用优先级：this.show(O)、super.show(O)、this.show((super)O)、super.show((super)O)。即先查this对象的父类，没有就重头再查参数的父类</li>
+</ol>
+<p>多态的优点：<br>可替换，可扩充，接口性，灵活操作，简化程序</p>
+<p>经典案例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">public class A &#123;    </div><div class="line">    public String show(D obj) &#123;    </div><div class="line">        return (&quot;A and D&quot;);    </div><div class="line">    &#125;    </div><div class="line">    </div><div class="line">    public String show(A obj) &#123;    </div><div class="line">        return (&quot;A and A&quot;);    </div><div class="line">    &#125;     </div><div class="line">    </div><div class="line">&#125;    </div><div class="line">    </div><div class="line">public class B extends A&#123;    </div><div class="line">    public String show(B obj)&#123;    </div><div class="line">        return (&quot;B and B&quot;);    </div><div class="line">    &#125;    </div><div class="line">        </div><div class="line">    public String show(A obj)&#123;    </div><div class="line">        return (&quot;B and A&quot;);    </div><div class="line">    &#125;     </div><div class="line">&#125;    </div><div class="line">    </div><div class="line">public class C extends B&#123;    </div><div class="line">    </div><div class="line">&#125;    </div><div class="line">    </div><div class="line">public class D extends B&#123;    </div><div class="line">    </div><div class="line">&#125;    </div><div class="line">    </div><div class="line">public class Test &#123;    </div><div class="line">    public static void main(String[] args) &#123;    </div><div class="line">        A a1 = new A();    </div><div class="line">        A a2 = new B();    </div><div class="line">        B b = new B();    </div><div class="line">        C c = new C();    </div><div class="line">        D d = new D();    </div><div class="line">            </div><div class="line">        System.out.println(&quot;1--&quot; + a1.show(b));    </div><div class="line">        System.out.println(&quot;2--&quot; + a1.show(c));    </div><div class="line">        System.out.println(&quot;3--&quot; + a1.show(d));    </div><div class="line">        System.out.println(&quot;4--&quot; + a2.show(b)); </div><div class="line">        /*4--B and A </div><div class="line">        首先a2是A引用，B实例，调用show（B b）方法，</div><div class="line">        此方法在父类A中没有定义，所以B中方法show(B b)</div><div class="line">        不会调用（多态必须父类中已定义该方法，</div><div class="line">        再按优先级为：this.show(O)、super.show(O)、</div><div class="line">        this.show((super)O)、super.show((super)O)，</div><div class="line">        即先查this对象的父类，没有重头再查参数的父类。</div><div class="line">        查找super.show((super)O)时，B中没有，再向上，</div><div class="line">        找到A中show(A a),因此执行。*/  </div><div class="line">  </div><div class="line">        System.out.println(&quot;5--&quot; + a2.show(c));  //同上  </div><div class="line">        System.out.println(&quot;6--&quot; + a2.show(d));  //A and D .查找B中没有show(D d)方法，再查A中，有，执行。  </div><div class="line">        System.out.println(&quot;7--&quot; + b.show(b));    </div><div class="line">        System.out.println(&quot;8--&quot; + b.show(c));  //B and B .  </div><div class="line">        System.out.println(&quot;9--&quot; + b.show(d));          </div><div class="line">    &#125;    </div><div class="line">&#125;    </div><div class="line"></div><div class="line">                        </div><div class="line">运行结果：</div><div class="line">[java] view plain copy</div><div class="line"> 1--A and A    </div><div class="line">2--A and A    </div><div class="line">3--A and D    </div><div class="line">4--B and A    </div><div class="line">5--B and A    </div><div class="line">6--A and D    </div><div class="line">7--B and B    </div><div class="line">8--B and B    </div><div class="line">9--A and D</div></pre></td></tr></table></figure></p>
+<h4 id="什么是内部类？内部类的作用"><a href="#什么是内部类？内部类的作用" class="headerlink" title="什么是内部类？内部类的作用"></a>什么是内部类？内部类的作用</h4><ol>
+<li>内部类依然是一个独立的类，在编译之后会生成一个独立的.class文件，只是前缀是外部类名$。</li>
+<li>内部类不能通过普通的方式访问，不能被同包名下其他类访问。</li>
+<li>内部类仍然属于外部类的一个成员，所以可以自由访问外部类的成员变量，包括private。</li>
+<li>如果内部类声明为static则只能访问外部类静态成员变量。</li>
+<li>补充：内部类继承某个类或实现接口，内部类可操作创建外部类对象。所以你可以任务内部类提供某种进入其外部类的窗口。这里就能实现多重继承，内部类可以继承某个类，外部类亦可，而且对内部类都没有影响。如果没有内部类提供的可以继承多个具体的或抽象的类的能力，一些设计与编程问题就很难解决。虽然接口解决了多重继承的问题，但是内部类也实现了这样的功能。</li>
+</ol>
+<h4 id="抽象类的意义。抽象类与接口的应用场景"><a href="#抽象类的意义。抽象类与接口的应用场景" class="headerlink" title="抽象类的意义。抽象类与接口的应用场景"></a>抽象类的意义。抽象类与接口的应用场景</h4><p>抽象类的意义：</p>
+<ol>
+<li>为了提供公共的类型；</li>
+<li>封装子类中重复的成员变量和方法；</li>
+<li>抽象的方法，子类可以具有不同的行为；</li>
+<li>抽象类和接口使得java更具强大的面对对象能力。</li>
+</ol>
+<p>个人理解：在面向对象的概念中，所有的对象都是通过类描绘的，反之则不是，不是所有的类都是来描绘对象的，如果一个类中没有足够的信息来描绘这个具体对象，这个类就是抽象类。抽象类往往用来表征我们在对问题领域进行分析、设计得出的抽象概念，是对一系列看上去不同但本质上相同的具体概念抽象。</p>
+<h4 id="泛型中-extends-和-super-的区别？"><a href="#泛型中-extends-和-super-的区别？" class="headerlink" title="泛型中 extends 和 super 的区别？"></a>泛型中 extends 和 super 的区别？</h4><p><a href="https://itimetraveler.github.io/2016/12/27/%E3%80%90Java%E3%80%91%E6%B3%9B%E5%9E%8B%E4%B8%AD%20extends%20%E5%92%8C%20super%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/" target="_blank" rel="external">https://itimetraveler.github.io/2016/12/27/%E3%80%90Java%E3%80%91%E6%B3%9B%E5%9E%8B%E4%B8%AD%20extends%20%E5%92%8C%20super%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/</a></p>
+<h4 id="父类的静态方法能否被子类重写"><a href="#父类的静态方法能否被子类重写" class="headerlink" title="父类的静态方法能否被子类重写"></a>父类的静态方法能否被子类重写</h4><p>所谓静态就是指：在编译之后所分配的内存会一直存在（不会被回收），直到程序退出内存才会释放这个空间。<br>静态方法属于类不属于对象，即使子类和父类的静态方法一样，也不能算是重写，是属于两个类的不同方法，这两个方法在程序运行类加载过程中就已经在内存中创建好，属于两块不同的内存。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Author By <a target="_blank" href="https://github.com/jianjin33">简祖明.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
